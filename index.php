@@ -93,16 +93,18 @@
             // var_dump($playlists->items[0]->id);
         }
 
-        function getSongs($playlistID)
+        function getSongs($playlistID, $iteration = 0)
         {
             $authToken = $this->refreshToken();
             $headers = "Accept: application/json\r\n";
             $headers .= "Content-Type: application/json\r\n";
             $headers .= "Authorization: Bearer ".$authToken."\r\n";
+
+            $offset = $iteration * 100;
             
             $songs = $this->makeRequest(
                 "GET", 
-                "https://api.spotify.com/v1/playlists/".$playlistID."/tracks",
+                "https://api.spotify.com/v1/playlists/".$playlistID."/tracks?offset=".$offset,
                 null,
                 $headers
             );
@@ -112,29 +114,59 @@
             return $songs->items;
         }
 
-        function handlePlaylists(){
-            $this->getToken();
-            $playlists = $this->getPlaylists();
-
-            $playlistID = $playlists[0]->id;
-
-            $songs = $this->getSongs($playlistID);
-            $songIDs = [];
-
+        function getSongListIDs($songs)
+        {
+            $ids = [];
             foreach($songs as $song){
-                $songIDs[] = $song->track->id;
+                $ids[] = $song->track->id;
             }
+            return $ids;
+        }
 
-            // for ($i = 0; $i < count($playlists); $i++) {
-            //     $id = $playlists[$i]->id;
-            //     $songs = getSongs();
-            // }
+        function getPlaylistID($playlistName)
+        {
+            $allPlaylists = $this->getPlaylists();
+
+            foreach($allPlaylists as $playlist) {
+                if ($playlist->name == $playlistName) {
+                    return $playlist->id;
+                }
+            }
+        }
+
+        function handlePlaylists($selectedPlaylists)
+        {
+            if (count($selectedPlaylists) != 2) {
+                echo "Has to be two playlists selected (for now)";
+            } else {
+                $this->getToken();
+    
+                $activePlaylists = [];
+    
+                for ($i = 0; $i < count($selectedPlaylists); $i++) {
+                    $id = $this->getPlaylistID($selectedPlaylists[$i]);
+                    $songsList = $this->getSongs($id, 0);
+                    $iterationCounter = 1;
+
+                    while (count($songsList) / $iterationCounter == 100) {
+                        $newSongs = $this->getSongs($id, $iterationCounter);
+                        $songsList = array_merge($newSongs, $songsList);
+                        $iterationCounter++;
+                    }
+
+                    $songIDs = $this->getSongListIDs($songsList);
+                    $activePlaylists[$i] = $songIDs;
+                }
+
+                $newPlaylist = array_intersect($activePlaylists[0], $activePlaylists[1]);
+                var_dump($newPlaylist);
+            }
         }
     }
 
     $overlappr = new Overlappr();
 
-    $overlappr->handlePlaylists();
+    $overlappr->handlePlaylists(["Scottish", "Not Metal"]);
 
 ?>
 
