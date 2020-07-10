@@ -4,7 +4,7 @@
         public $authToken;
         public $refreshToken;
         public $userObj;
-        public $userID = "1114234527";
+        public $userID;
         private $env;
         public $url;
 
