@@ -18,7 +18,6 @@
                         'content' => $data
                     )
                 );
-                var_dump($headers);
                 $context  = stream_context_create($options);
                 $result = file_get_contents($url, false, $context);
                 
@@ -148,12 +147,12 @@
                     $songsList = $this->getSongs($id, 0);
                     $iterationCounter = 1;
 
+
                     while (count($songsList) / $iterationCounter == 100) {
                         $newSongs = $this->getSongs($id, $iterationCounter);
                         $songsList = array_merge($newSongs, $songsList);
                         $iterationCounter++;
                     }
-
                     $songIDs = $this->getSongListIDs($songsList);
                     $activePlaylists[$i] = $songIDs;
                 }
@@ -166,7 +165,6 @@
         function createPlaylist($name)
         {
             $authToken = $this->refreshToken();
-            var_dump($authToken);
             $url = "https://api.spotify.com/v1/users/1114234527/playlists";
 
             $data = [
@@ -185,7 +183,49 @@
                 $headers
             );
 
-            var_dump($newPlaylist);
+            return ($newPlaylist);
+        }
+        function addSongsToPlaylist($playlist, $songs)
+        {
+            $authToken = $this->refreshToken();
+            $url = "https://api.spotify.com/v1/playlists/".$playlist."/tracks";
+
+            $data = [
+                "uris" => $songs,
+                "position" => 0
+            ];
+
+            $headers = "Accept: application/json\r\n";
+            $headers .= "Content-Type: application/json\r\n";
+            $headers .= "Authorization: Bearer ".$authToken."\r\n";
+
+            $newPlaylist = $this->makeRequest(
+                "POST",
+                $url,
+                json_encode($data),
+                $headers
+            );
+
+            return ($newPlaylist);
+        }
+
+        function handlePlaylists($selectedPlaylists)
+        {
+            $newPlaylistName = "";
+            foreach ($selectedPlaylists as $playlist) {
+                $newPlaylistName .= $playlist . " x ";
+            }
+            $newPlaylistName = rtrim($newPlaylistName, "x ");
+
+            $newSongList = $this->getOverlap($selectedPlaylists);
+            $songListURIs = [];
+            foreach ($newSongList as $song) {
+                $songListURIs[] = "spotify:track:".$song;
+            }
+
+            $newPlaylist = json_decode($this->createPlaylist($newPlaylistName));
+            $completedPlaylist = $this->addSongsToPlaylist($newPlaylist->id, $songListURIs);
+            var_dump($completedPlaylist);
         }
 
     }
@@ -193,7 +233,6 @@
     $overlappr = new Overlappr();
 
     $overlappr->getToken();
-    $overlappr->createPlaylist("foo");
-    // $overlappr->handlePlaylists(["Scottish", "Not Metal"]);
+    $overlappr->handlePlaylists(["Scottish", "Not Metal"]);
 
 ?>
