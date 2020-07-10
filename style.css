@@ -1,7 +1,9 @@
 body{
     padding: 0;
     margin: 0;
-
+    overflow: hidden;
+}
+.container{
     font-family: 'Poppins', sans-serif;
     color: #ffffff;
 
@@ -15,7 +17,7 @@ body{
     overflow: hidden;
 }
 
-body::before {
+.container::before {
     content: "";
     width: 160vh;
     height: 160vh;
@@ -26,8 +28,9 @@ body::before {
     border-radius: 100%;
     top: -70%;
     left: -18%;
+    z-index: 2;
 }
-body::after {
+.container::after {
     content: "";
     width: 160vh;
     height: 160vh;
@@ -38,10 +41,10 @@ body::after {
     border-radius: 100%;
     bottom: -70%;
     right: -18%;
-    z-index: -1;
+    z-index: 1;
 }
 
-.container{
+.center{
     max-width: 1200px;
     width: 85%;
     margin: 0 auto;
@@ -50,6 +53,7 @@ body::after {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 3;
 }
 h1{
     font-size: 72px;
@@ -69,7 +73,7 @@ h2 a{
 .form{
     display: flex;
     justify-content: center;
-    align-items: middle;
+    align-items: center;
     flex-wrap: wrap;
 }
 select{
@@ -96,6 +100,10 @@ select:focus{
 }
 .select{
     position: relative;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .select::before{
     content: url("chevron.svg");
@@ -120,10 +128,11 @@ button{
     font-size: 20px;
     font-family: 'Poppins', sans-serif;
     box-shadow: 0px 1px 7px rgba(0,0,0,0.2);
-    margin-top: 20px;
+    margin-top: 15px;
     border: 3px solid #fff;
     cursor: pointer;
     text-decoration: none;
+    max-width: 100%;
 }
 a:hover,
 button:hover,
@@ -146,4 +155,11 @@ span{
     position: relative;
     top: 7px;
     text-shadow: 0px 1px 7px rgba(0,0,0,0.2);
+}
+
+@media screen and (max-width: 400px) {
+    h1{
+        font-size: 50px;
+        letter-spacing: -1px;
+    }
 }

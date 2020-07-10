@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Overlappr</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <?php 
-        include_once("overlappr.class.php");
+        include_once(__DIR__."/overlappr.class.php");
     ?>
-
-    <div class="container">
+<div class="container">
+    <div class="center">
 
         <h1>
             Overlappr
@@ -30,7 +30,7 @@
         </form>
         <span>Logged in as <?= $overlappr->userObj->display_name ?></span>
     </div>
-
+</div>
     <script>
         function ajax(method, url, callback, data){
         var xhttp = new XMLHttpRequest();
@@ -67,7 +67,7 @@
                 ctaButton.innerHTML = "loading...";
                 ctaButton.disabled = "true";
 
-                ajax("GET", "http://localhost:5907/overlappr.class.php?refresh=<?= $overlappr->refreshToken ?>&playlists="+formData, function(response){
+                ajax("GET", "https://overlappr.tiamat.uk/overlappr.class.php?refresh=<?= $overlappr->refreshToken ?>&playlists="+formData, function(response){
                     // console.log(response);
                     document.getElementById('feedback').innerHTML = response;
                     ctaButton.innerHTML = originalText;
@@ -77,6 +77,5 @@
             })
         }
     </script>
-
 </body>
 </html>

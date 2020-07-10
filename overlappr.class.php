@@ -39,7 +39,7 @@
             $requestBody = [
                 "grant_type" => "authorization_code",
                 "code" => $_GET['code'],
-                "redirect_uri" => "http://localhost:5907",
+                "redirect_uri" => "https://overlappr.tiamat.uk",
                 "scope" => "playlist-modify-private",
                 "client_id" => $this->env['client_id'],
                 "client_secret" => $this->env['client_secret']
@@ -310,7 +310,8 @@
     } elseif(isset($_GET['code'])) {
         $overlappr->getToken();
     } else {
-        header("Location: https://accounts.spotify.com/authorize?client_id=1a0e4dc230e3429d9ad538490df3d3f0&response_type=code&redirect_uri=http://localhost:5907&scope=playlist-modify-private");
+        echo "<script>window.location.href='https://accounts.spotify.com/authorize?client_id=1a0e4dc230e3429d9ad538490df3d3f0&response_type=code&redirect_uri=https://overlappr.tiamat.uk&scope=playlist-modify-private';</script>";
+        exit;    
     }
 
 ?>
