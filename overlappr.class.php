@@ -210,7 +210,8 @@
 
             $data = [
                 "name" => $name,
-                "public" => false
+                "public" => false,
+                "description" => "Created using Overlappr"
             ];
 
             $headers = "Accept: application/json\r\n";

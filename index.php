@@ -9,7 +9,9 @@
 </head>
 <body>
     <?php 
+        echo "<pre>";
         include_once(__DIR__."/overlappr.class.php");
+        echo "</pre>";
     ?>
 <div class="container">
     <div class="center">
@@ -18,7 +20,9 @@
             Overlappr
         </h1>
 
-        <h2 id="feedback"><?= $userResponse; ?></h2>
+        <h2 id="feedback"><?= $userResponse; ?>
+            Create a new playlist out of songs that are in both source playlists
+        </h2>
 
         <form id="overlappr">
             <div class="form">
