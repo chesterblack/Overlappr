@@ -1,0 +1,14 @@
+{
+    "name": "chesterblack/overlappr",
+    "description": "Spotify app to create playlists based on where two playlists overlap",
+    "require-dev": {
+        "vlucas/phpdotenv": "^5.0"
+    },
+    "authors": [
+        {
+            "name": "Chester Black",
+            "email": "chez.black@hotmail.co.uk"
+        }
+    ],
+    "require": {}
+}

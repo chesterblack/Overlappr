@@ -1,13 +1,19 @@
 <?php
-    error_reporting(E_ALL);
-    
     class Overlappr
     {
-        
         public $authToken;
         public $refreshToken;
         public $userObj;
         public $userID = "1114234527";
+        private $env;
+
+        function __construct()
+        {
+            require __DIR__ . '/vendor/autoload.php';
+            $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+            $dotenv->load();
+            $this->env = $_ENV;
+        }
 
         function makeRequest($method, $url, $data, $headers)
         {
@@ -35,8 +41,8 @@
                 "code" => $_GET['code'],
                 "redirect_uri" => "http://localhost:5907",
                 "scope" => "playlist-modify-private",
-                "client_id" => "1a0e4dc230e3429d9ad538490df3d3f0",
-                "client_secret" => "5968a94c7a3149ad9c56144af43fd842"
+                "client_id" => $this->env['client_id'],
+                "client_secret" => $this->env['client_secret']
             ];
 
             $headers = "Content-type: application/x-www-form-urlencoded\r\n";
@@ -60,8 +66,8 @@
             $requestBody = [
                 "grant_type" => "refresh_token",
                 "refresh_token" => $this->refreshToken,
-                "client_id" => "1a0e4dc230e3429d9ad538490df3d3f0",
-                "client_secret" => "5968a94c7a3149ad9c56144af43fd842"
+                "client_id" => $this->env['client_id'],
+                "client_secret" => $this->env['client_secret']            
             ];
 
             $headers = "Content-type: application/x-www-form-urlencoded\r\n";
