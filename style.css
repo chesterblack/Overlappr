@@ -1,0 +1,109 @@
+body{
+    padding: 0;
+    margin: 0;
+
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff;
+
+    background-color: #21D4FD;
+    background: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+
+    text-align: center;
+}
+.container{
+    max-width: 1200px;
+    width: 85%;
+    margin: 0 auto;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+h1{
+    font-size: 72px;
+    text-shadow: 0px 1px 7px rgba(0,0,0,0.2);
+    margin: 0;
+}
+.form{
+    display: flex;
+    justify-content: center;
+    align-items: middle;
+    flex-wrap: wrap;
+}
+select{
+    -webkit-appearance: none;
+    appearance: none;
+    background: none;
+    color: #ffffff;
+    border: 3px solid #fff;
+    border-radius: 50px;
+    height: 60px;
+    width: 350px;
+    max-width: 100%;
+    padding: 0 20px;
+    font-size: 20px;
+    font-family: 'Poppins', sans-serif;
+    margin: 15px;
+    box-sizing: border-box;
+    box-shadow: 0px 1px 7px rgba(0,0,0,0.2);
+    text-shadow: 0px 1px 7px rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+select:focus{
+    outline: none;
+}
+.select{
+    position: relative;
+}
+.select::before{
+    content: url("chevron.svg");
+    position: absolute;
+    color: #ffffff;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-39%);
+    cursor: pointer;
+    width: 25px;
+    filter: drop-shadow(0px 1px 7px rgba(0,0,0,0.2));
+}
+a,
+button{
+    border-radius: 50px;
+    height: 60px;
+    width: 350px;
+    border: 0;
+    background: #ffffff;
+    color: #878cf7;
+    font-weight: bold;
+    font-size: 20px;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 0px 1px 7px rgba(0,0,0,0.2);
+    margin-top: 20px;
+    border: 3px solid #fff;
+    cursor: pointer;
+    text-decoration: none;
+}
+a:hover,
+button:hover{
+    background: none;
+    color: #ffffff;
+    text-shadow: 0px 1px 7px rgba(0,0,0,0.2);
+}
+button:focus{
+    outline: none;
+}
+a.refresh{
+    position: relative;
+    top: 20px;
+}
+a{
+    font-size: 16px;
+    font-weight: normal;
+    height: initial;
+    padding: 4px 20px;
+    color: #9a5cf6;
+}

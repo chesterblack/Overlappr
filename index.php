@@ -1,238 +1,69 @@
-<?php
-    echo "<pre>";
-    error_reporting(E_ALL);
-    
-    class Overlappr
-    {
-        
-        public $authToken;
-        public $refreshToken;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <?php 
+        include_once("overlappr.class.php");
 
-        function makeRequest($method, $url, $data, $headers)
-        {
-            try {
-                $options = array(
-                    'http' => array(
-                        'header'  => $headers,
-                        'method'  => $method,
-                        'content' => $data
-                    )
-                );
-                $context  = stream_context_create($options);
-                $result = file_get_contents($url, false, $context);
-                
-                return $result;
-            } catch (Exception $e) {
-                var_dump($e->getMessage());
-            }
+        if (isset($_COOKIE['playlists'])) {
+            $playlists = json_decode($_COOKIE['playlists'])->playlists;
+            $newPlaylist = $overlappr->handlePlaylists($playlists);
+            $userResponse = $newPlaylist->name." has been created <a target=\"_blank\" href=\"".$newPlaylist->external_urls->spotify."\">view new playlist</a>";    
         }
-
-        function getToken()
-        {
-            $requestBody = [
-                "grant_type" => "authorization_code",
-                "code" => $_GET['code'],
-                "redirect_uri" => "http://localhost:5907",
-                "scope" => "playlist-modify-private",
-                "client_id" => "1a0e4dc230e3429d9ad538490df3d3f0",
-                "client_secret" => "5968a94c7a3149ad9c56144af43fd842"
-            ];
-
-            $headers = "Content-type: application/x-www-form-urlencoded\r\n";
-
-            $response = json_decode($this->makeRequest(
-                "POST", 
-                "https://accounts.spotify.com/api/token", 
-                http_build_query($requestBody),
-                $headers
-            ));
-
-            $this->authToken = $response->access_token;
-            $this->refreshToken = $response->refresh_token;
-        }
-
-        function refreshToken(){
-            $requestBody = [
-                "grant_type" => "refresh_token",
-                "refresh_token" => $this->refreshToken,
-                "client_id" => "1a0e4dc230e3429d9ad538490df3d3f0",
-                "client_secret" => "5968a94c7a3149ad9c56144af43fd842"
-            ];
-
-            $headers = "Content-type: application/x-www-form-urlencoded\r\n";
-
-            $response = json_decode($this->makeRequest(
-                "POST", 
-                "https://accounts.spotify.com/api/token", 
-                http_build_query($requestBody),
-                $headers
-            ));
-
-            $token = $response->access_token;
-
-            return $token;
-        }
-
-        function getPlaylists()
-        {
-            $authToken = $this->refreshToken();
-            $headers = "Accept: application/json\r\n";
-            $headers .= "Content-Type: application/json\r\n";
-            $headers .= "Authorization: Bearer ".$authToken."\r\n";
-            
-            $playlists = $this->makeRequest(
-                "GET", 
-                "https://api.spotify.com/v1/users/1114234527/playlists",
-                null,
-                $headers
-            );
-
-            $playlists = json_decode($playlists);
-
-            return $playlists->items;
-
-            // var_dump($playlists->items[0]->id);
-        }
-
-        function getSongs($playlistID, $iteration = 0)
-        {
-            $authToken = $this->refreshToken();
-            $headers = "Accept: application/json\r\n";
-            $headers .= "Content-Type: application/json\r\n";
-            $headers .= "Authorization: Bearer ".$authToken."\r\n";
-
-            $offset = $iteration * 100;
-            
-            $songs = $this->makeRequest(
-                "GET", 
-                "https://api.spotify.com/v1/playlists/".$playlistID."/tracks?offset=".$offset,
-                null,
-                $headers
-            );
-
-            $songs = json_decode($songs);
-
-            return $songs->items;
-        }
-
-        function getSongListIDs($songs)
-        {
-            $ids = [];
-            foreach($songs as $song){
-                $ids[] = $song->track->id;
-            }
-            return $ids;
-        }
-
-        function getPlaylistID($playlistName)
-        {
-            $allPlaylists = $this->getPlaylists();
-
-            foreach($allPlaylists as $playlist) {
-                if ($playlist->name == $playlistName) {
-                    return $playlist->id;
-                }
-            }
-        }
-
-        function getOverlap($selectedPlaylists)
-        {
-            if (count($selectedPlaylists) != 2) {
-                echo "Has to be two playlists selected (for now)";
-            } else {
-                $activePlaylists = [];
-    
-                for ($i = 0; $i < count($selectedPlaylists); $i++) {
-                    $id = $this->getPlaylistID($selectedPlaylists[$i]);
-                    $songsList = $this->getSongs($id, 0);
-                    $iterationCounter = 1;
+    ?>
 
 
-                    while (count($songsList) / $iterationCounter == 100) {
-                        $newSongs = $this->getSongs($id, $iterationCounter);
-                        $songsList = array_merge($newSongs, $songsList);
-                        $iterationCounter++;
-                    }
-                    $songIDs = $this->getSongListIDs($songsList);
-                    $activePlaylists[$i] = $songIDs;
+    <a href="https://accounts.spotify.com/authorize?client_id=1a0e4dc230e3429d9ad538490df3d3f0&response_type=code&redirect_uri=http://localhost:5907&scope=playlist-modify-private" class="refresh">
+        refresh
+    </a>
+    <div class="container">
+
+        <h1>
+            Overlappr
+        </h1>
+
+        <h2 id="response"><?= $userResponse; ?></h2>
+
+        <form id="overlappr">
+            <div class="form">
+                <?php $overlappr->displayOptions() ?>
+            </div>
+            <button>
+                create new playlist
+            </button>
+        </form>
+    </div>
+
+    <script>
+        window.onload = function(){
+            var form = document.getElementById('overlappr');
+            form.addEventListener("submit", function(e){
+                e.preventDefault();
+
+                var selectValues = [];
+                var selects = document.getElementsByTagName('select');
+                for (var i = 0; i < selects.length; i++) {
+                    selectValues.push(selects[i].options[selects[i].selectedIndex].value);
                 }
 
-                $newPlaylist = array_intersect($activePlaylists[0], $activePlaylists[1]);
-                return $newPlaylist;
-            }
+                formData = {
+                    "playlists": selectValues
+                };
+
+                formData = JSON.stringify(formData);
+
+                document.cookie = "playlists="+formData+"; max-age=5; path=/";
+
+                window.location = "https://accounts.spotify.com/authorize?client_id=1a0e4dc230e3429d9ad538490df3d3f0&response_type=code&redirect_uri=http://localhost:5907&scope=playlist-modify-private";
+            })
         }
+    </script>
 
-        function createPlaylist($name)
-        {
-            $authToken = $this->refreshToken();
-            $url = "https://api.spotify.com/v1/users/1114234527/playlists";
-
-            $data = [
-                "name" => $name,
-                "public" => false
-            ];
-
-            $headers = "Accept: application/json\r\n";
-            $headers .= "Content-Type: application/json\r\n";
-            $headers .= "Authorization: Bearer ".$authToken."\r\n";
-
-            $newPlaylist = $this->makeRequest(
-                "POST",
-                $url,
-                json_encode($data),
-                $headers
-            );
-
-            return ($newPlaylist);
-        }
-        function addSongsToPlaylist($playlist, $songs)
-        {
-            $authToken = $this->refreshToken();
-            $url = "https://api.spotify.com/v1/playlists/".$playlist."/tracks";
-
-            $data = [
-                "uris" => $songs,
-                "position" => 0
-            ];
-
-            $headers = "Accept: application/json\r\n";
-            $headers .= "Content-Type: application/json\r\n";
-            $headers .= "Authorization: Bearer ".$authToken."\r\n";
-
-            $newPlaylist = $this->makeRequest(
-                "POST",
-                $url,
-                json_encode($data),
-                $headers
-            );
-
-            return ($newPlaylist);
-        }
-
-        function handlePlaylists($selectedPlaylists)
-        {
-            $newPlaylistName = "";
-            foreach ($selectedPlaylists as $playlist) {
-                $newPlaylistName .= $playlist . " x ";
-            }
-            $newPlaylistName = rtrim($newPlaylistName, "x ");
-
-            $newSongList = $this->getOverlap($selectedPlaylists);
-            $songListURIs = [];
-            foreach ($newSongList as $song) {
-                $songListURIs[] = "spotify:track:".$song;
-            }
-
-            $newPlaylist = json_decode($this->createPlaylist($newPlaylistName));
-            $completedPlaylist = $this->addSongsToPlaylist($newPlaylist->id, $songListURIs);
-            var_dump($completedPlaylist);
-        }
-
-    }
-
-    $overlappr = new Overlappr();
-
-    $overlappr->getToken();
-    $overlappr->handlePlaylists(["Scottish", "Not Metal"]);
-
-?>
+</body>
+</html>
