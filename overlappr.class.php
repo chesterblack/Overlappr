@@ -6,6 +6,7 @@
         public $userObj;
         public $userID = "1114234527";
         private $env;
+        public $url;
 
         function __construct()
         {
@@ -13,6 +14,7 @@
             $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
             $dotenv->load();
             $this->env = $_ENV;
+            $this->url = $_ENV['url'];
         }
 
         function makeRequest($method, $url, $data, $headers)
@@ -39,7 +41,7 @@
             $requestBody = [
                 "grant_type" => "authorization_code",
                 "code" => $_GET['code'],
-                "redirect_uri" => "https://overlappr.tiamat.uk",
+                "redirect_uri" => $this->url,
                 "scope" => "playlist-modify-private",
                 "client_id" => $this->env['client_id'],
                 "client_secret" => $this->env['client_secret']
@@ -310,11 +312,11 @@
     } elseif(isset($_GET['code'])) {
         $overlappr->getToken();
         if (!$overlappr->authToken) {
-            echo "<script>window.location.href='https://accounts.spotify.com/authorize?client_id=1a0e4dc230e3429d9ad538490df3d3f0&response_type=code&redirect_uri=https://overlappr.tiamat.uk&scope=playlist-modify-private playlist-read-private';</script>";
+            echo "<script>window.location.href='https://accounts.spotify.com/authorize?client_id=1a0e4dc230e3429d9ad538490df3d3f0&response_type=code&redirect_uri=".$overlappr->url."&scope=playlist-modify-private playlist-read-private';</script>";
             exit;
         }
     } else {
-        echo "<script>window.location.href='https://accounts.spotify.com/authorize?client_id=1a0e4dc230e3429d9ad538490df3d3f0&response_type=code&redirect_uri=https://overlappr.tiamat.uk&scope=playlist-modify-private playlist-read-private';</script>";
+        echo "<script>window.location.href='https://accounts.spotify.com/authorize?client_id=1a0e4dc230e3429d9ad538490df3d3f0&response_type=code&redirect_uri=".$overlappr->url."&scope=playlist-modify-private playlist-read-private';</script>";
         exit;    
     }
 

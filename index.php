@@ -66,8 +66,7 @@
                 var originalText = ctaButton.innerHTML;
                 ctaButton.innerHTML = "loading...";
                 ctaButton.disabled = "true";
-
-                ajax("GET", "https://overlappr.tiamat.uk/overlappr.class.php?refresh=<?= $overlappr->refreshToken ?>&playlists="+formData, function(response){
+                ajax("GET", "<?= $overlappr->url ?>/overlappr.class.php?refresh=<?= $overlappr->refreshToken ?>&playlists="+formData, function(response){
                     // console.log(response);
                     document.getElementById('feedback').innerHTML = response;
                     ctaButton.innerHTML = originalText;
