@@ -28,6 +28,15 @@ h1{
     text-shadow: 0px 1px 7px rgba(0,0,0,0.2);
     margin: 0;
 }
+h2{
+    font-weight: normal;
+}
+h2 a{
+    width: initial;
+    position: relative;
+    top: -3px;
+    left: 7px;
+}
 .form{
     display: flex;
     justify-content: center;
@@ -88,7 +97,8 @@ button{
     text-decoration: none;
 }
 a:hover,
-button:hover{
+button:hover,
+button:disabled{
     background: none;
     color: #ffffff;
     text-shadow: 0px 1px 7px rgba(0,0,0,0.2);

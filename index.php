@@ -10,12 +10,6 @@
 <body>
     <?php 
         include_once("overlappr.class.php");
-
-        if (isset($_COOKIE['playlists'])) {
-            $playlists = json_decode($_COOKIE['playlists'])->playlists;
-            $newPlaylist = $overlappr->handlePlaylists($playlists);
-            $userResponse = $newPlaylist->name." has been created <a target=\"_blank\" href=\"".$newPlaylist->external_urls->spotify."\">view new playlist</a>";    
-        }
     ?>
 
 
@@ -28,19 +22,37 @@
             Overlappr
         </h1>
 
-        <h2 id="response"><?= $userResponse; ?></h2>
+        <h2 id="feedback"><?= $userResponse; ?></h2>
 
         <form id="overlappr">
             <div class="form">
                 <?php $overlappr->displayOptions() ?>
             </div>
-            <button>
+            <button id="cta">
                 create new playlist
             </button>
         </form>
     </div>
 
     <script>
+        function ajax(method, url, callback, data){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            console.log(this.status);
+            if (this.readyState == 4) {
+                callback(this.responseText);
+            }
+        };
+
+        xhttp.open(method, url, true);
+
+        if (method == "POST") {
+            xhttp.send(data);
+        } else {
+            xhttp.send();
+        }
+    }
+
         window.onload = function(){
             var form = document.getElementById('overlappr');
             form.addEventListener("submit", function(e){
@@ -51,16 +63,19 @@
                 for (var i = 0; i < selects.length; i++) {
                     selectValues.push(selects[i].options[selects[i].selectedIndex].value);
                 }
+                var formData = JSON.stringify(selectValues);
 
-                formData = {
-                    "playlists": selectValues
-                };
+                var ctaButton = document.getElementById('cta');
+                var originalText = ctaButton.innerHTML;
+                ctaButton.innerHTML = "loading...";
+                ctaButton.disabled = "true";
 
-                formData = JSON.stringify(formData);
+                ajax("GET", "http://localhost:5907/overlappr.class.php?refresh=<?= $overlappr->refreshToken ?>&playlists="+formData, function(response){
+                    document.getElementById('feedback').innerHTML = response;
+                    ctaButton.innerHTML = originalText;
+                    ctaButton.removeAttribute('disabled');
+                }, formData);
 
-                document.cookie = "playlists="+formData+"; max-age=5; path=/";
-
-                window.location = "https://accounts.spotify.com/authorize?client_id=1a0e4dc230e3429d9ad538490df3d3f0&response_type=code&redirect_uri=http://localhost:5907&scope=playlist-modify-private";
             })
         }
     </script>

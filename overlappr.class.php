@@ -160,6 +160,7 @@
                         $songsList = array_merge($newSongs, $songsList);
                         $iterationCounter++;
                     }
+
                     $songIDs = $this->getSongListIDs($songsList);
                     $activePlaylists[$i] = $songIDs;
                 }
@@ -265,7 +266,16 @@
     }
 
     $overlappr = new Overlappr();
-    $overlappr->getToken();
-    // $overlappr->handlePlaylists(["Not Metal", "Scottish"]);
+
+
+    if (isset($_GET['refresh'])) {
+        $overlappr->refreshToken = $_GET['refresh'];
+        $playlists = json_decode($_GET['playlists']);
+        $newPlaylist = $overlappr->handlePlaylists($playlists);
+        $userResponse = "<strong>".$newPlaylist->name."</strong> has been created <a target=\"_blank\" href=\"".$newPlaylist->external_urls->spotify."\">view new playlist</a><br />";
+        echo $userResponse;
+    } else {
+        $overlappr->getToken();
+    }
 
 ?>
