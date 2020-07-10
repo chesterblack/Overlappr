@@ -12,10 +12,6 @@
         include_once("overlappr.class.php");
     ?>
 
-
-    <a href="https://accounts.spotify.com/authorize?client_id=1a0e4dc230e3429d9ad538490df3d3f0&response_type=code&redirect_uri=http://localhost:5907&scope=playlist-modify-private" class="refresh">
-        refresh
-    </a>
     <div class="container">
 
         <h1>
@@ -32,6 +28,7 @@
                 create new playlist
             </button>
         </form>
+        <span>Logged in as <?= $overlappr->userObj->display_name ?></span>
     </div>
 
     <script>

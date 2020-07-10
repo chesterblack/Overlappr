@@ -6,6 +6,7 @@
         
         public $authToken;
         public $refreshToken;
+        public $userObj;
         public $userID = "1114234527";
 
         function makeRequest($method, $url, $data, $headers)
@@ -49,6 +50,10 @@
 
             $this->authToken = $response->access_token;
             $this->refreshToken = $response->refresh_token;
+
+            setCookie("refresh_token", $response->refresh_token, time() + (86400 * 7), "/");
+
+            $this->setUserID($authToken);
         }
 
         function refreshToken(){
@@ -70,7 +75,25 @@
 
             $token = $response->access_token;
 
+            $this->setUserID($token);
+
             return $token;
+        }
+
+        function setUserID($authToken)
+        {
+            $headers = "Authorization: Bearer ".$authToken."\r\n";
+
+            $user = json_decode($this->makeRequest(
+                "GET",
+                "https://api.spotify.com/v1/me",
+                null,
+                $headers
+            ));
+
+            $this->userObj = $user;
+            $this->userID = $user->id;
+            return $this->userID;
         }
 
         function getPlaylists()
@@ -268,14 +291,18 @@
     $overlappr = new Overlappr();
 
 
-    if (isset($_GET['refresh'])) {
+    if (isset($_GET['refresh']) && $_GET['playlists']) {
         $overlappr->refreshToken = $_GET['refresh'];
         $playlists = json_decode($_GET['playlists']);
         $newPlaylist = $overlappr->handlePlaylists($playlists);
         $userResponse = "<strong>".$newPlaylist->name."</strong> has been created <a target=\"_blank\" href=\"".$newPlaylist->external_urls->spotify."\">view new playlist</a><br />";
         echo $userResponse;
-    } else {
+    } elseif(isset($_COOKIE['refresh_token'])) {
+        $overlappr->refreshToken = $_COOKIE['refresh_token'];
+    } elseif(isset($_GET['code'])) {
         $overlappr->getToken();
+    } else {
+        header("Location: https://accounts.spotify.com/authorize?client_id=1a0e4dc230e3429d9ad538490df3d3f0&response_type=code&redirect_uri=http://localhost:5907&scope=playlist-modify-private");
     }
 
 ?>

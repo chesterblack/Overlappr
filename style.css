@@ -106,14 +106,14 @@ button:disabled{
 button:focus{
     outline: none;
 }
-a.refresh{
-    position: relative;
-    top: 20px;
-}
 a{
     font-size: 16px;
     font-weight: normal;
     height: initial;
     padding: 4px 20px;
     color: #9a5cf6;
+}
+span{
+    position: relative;
+    top: 7px;
 }
