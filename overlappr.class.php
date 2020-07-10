@@ -309,8 +309,12 @@
         $overlappr->refreshToken = $_COOKIE['refresh_token'];
     } elseif(isset($_GET['code'])) {
         $overlappr->getToken();
+        if (!$overlappr->authToken) {
+            echo "<script>window.location.href='https://accounts.spotify.com/authorize?client_id=1a0e4dc230e3429d9ad538490df3d3f0&response_type=code&redirect_uri=https://overlappr.tiamat.uk&scope=playlist-modify-private playlist-read-private';</script>";
+            exit;
+        }
     } else {
-        echo "<script>window.location.href='https://accounts.spotify.com/authorize?client_id=1a0e4dc230e3429d9ad538490df3d3f0&response_type=code&redirect_uri=https://overlappr.tiamat.uk&scope=playlist-modify-private';</script>";
+        echo "<script>window.location.href='https://accounts.spotify.com/authorize?client_id=1a0e4dc230e3429d9ad538490df3d3f0&response_type=code&redirect_uri=https://overlappr.tiamat.uk&scope=playlist-modify-private playlist-read-private';</script>";
         exit;    
     }
 

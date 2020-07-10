@@ -162,4 +162,14 @@ span{
         font-size: 50px;
         letter-spacing: -1px;
     }
+    .container::before,
+    .container::after{
+        position: relative;
+    }
+    h2 a{
+        display: block;
+    }
+    select{
+        padding-right: 65px;
+    }
 }
