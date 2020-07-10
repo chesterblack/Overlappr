@@ -68,6 +68,7 @@
                 ctaButton.disabled = "true";
 
                 ajax("GET", "http://localhost:5907/overlappr.class.php?refresh=<?= $overlappr->refreshToken ?>&playlists="+formData, function(response){
+                    // console.log(response);
                     document.getElementById('feedback').innerHTML = response;
                     ctaButton.innerHTML = originalText;
                     ctaButton.removeAttribute('disabled');

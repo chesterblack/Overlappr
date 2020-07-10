@@ -149,7 +149,9 @@
         {
             $ids = [];
             foreach($songs as $song){
-                $ids[] = $song->track->id;
+                if ($song->track->id) {
+                    $ids[] = $song->track->id;
+                }
             }
             return $ids;
         }
