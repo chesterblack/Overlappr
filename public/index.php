@@ -6,22 +6,37 @@
     <title>Overlappr</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-</head>
-<body>
     <?php 
         echo "<pre>";
         include_once(__DIR__."/overlappr.class.php");
         echo "</pre>";
+
+        switch ($_GET['function']) {
+            case "outer":
+                $function = "outer";
+                break;
+            default:
+                $function = "";
+                break;
+        };
     ?>
+</head>
+<body class="<?= $function; ?>">
 <div class="container">
     <div class="center">
-
+        <span onclick="invert();">
+            invert
+        </span>
         <h1>
-            Overlappr
+            <div>
+                <span>Over</span>
+                <span>Outer</span>
+            </div>
+            <span>lappr</span>
         </h1>
 
         <h2 id="feedback"><?= $userResponse; ?>
-            Create a new playlist out of songs that are in both source playlists
+            Create a new playlist out of songs that are <span class="expand">not</span> in both source playlists
         </h2>
 
         <form id="overlappr">
@@ -32,31 +47,36 @@
                 create new playlist
             </button>
         </form>
-        <span>Logged in as <?= $overlappr->userObj->display_name ?></span>
+        <span class="logged-in">Logged in as <?= $overlappr->userObj->display_name ?></span>
     </div>
 </div>
     <script>
-        function ajax(method, url, callback, data){
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            console.log(this.status);
-            if (this.readyState == 4) {
-                callback(this.responseText);
-            }
-        };
-
-        xhttp.open(method, url, true);
-
-        if (method == "POST") {
-            xhttp.send(data);
-        } else {
-            xhttp.send();
+        function invert(){
+            var body = document.querySelector('body');
+            body.classList.contains('outer') ? body.classList.remove('outer') : body.classList.add('outer');
         }
-    }
 
-        window.onload = function(){
+        function ajax(method, url, callback, data) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                console.log(this.status);
+                if (this.readyState == 4) {
+                    callback(this.responseText);
+                }
+            };
+
+            xhttp.open(method, url, true);
+
+            if (method == "POST") {
+                xhttp.send(data);
+            } else {
+                xhttp.send();
+            }
+        }
+
+        window.onload = () => {
             var form = document.getElementById('overlappr');
-            form.addEventListener("submit", function(e){
+            form.addEventListener("submit", (e) => {
                 e.preventDefault();
 
                 var selectValues = [];
@@ -70,7 +90,7 @@
                 var originalText = ctaButton.innerHTML;
                 ctaButton.innerHTML = "loading...";
                 ctaButton.disabled = "true";
-                ajax("GET", "<?= $overlappr->url ?>/overlappr.class.php?refresh=<?= $overlappr->refreshToken ?>&playlists="+formData, function(response){
+                ajax("GET", "<?= $overlappr->url ?>/overlappr.class.php?refresh=<?= $overlappr->refreshToken ?>&playlists="+formData, (response) => {
                     // console.log(response);
                     document.getElementById('feedback').innerHTML = response;
                     ctaButton.innerHTML = originalText;
