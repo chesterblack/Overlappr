@@ -9,6 +9,8 @@
 </head>
 <body>
     <?php 
+        // ini_set("display_errors", "1");
+        // error_reporting(E_ALL);
         echo "<pre>";
         include_once(__DIR__."/overlappr.class.php");
         echo "</pre>";
@@ -20,7 +22,7 @@
             Overlappr
         </h1>
 
-        <h2 id="feedback"><?= $userResponse; ?>
+        <h2 id="feedback"><?= $userResponse ?? ""; ?>
             Create a new playlist out of songs that are in both source playlists
         </h2>
 
