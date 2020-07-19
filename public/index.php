@@ -1,3 +1,10 @@
+<?php 
+    // ini_set("display_errors", "1");
+    // error_reporting(E_ALL);
+    echo "<pre>";
+    include_once(__DIR__."/overlappr.class.php");
+    echo "</pre>";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,13 +15,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <?php 
-        // ini_set("display_errors", "1");
-        // error_reporting(E_ALL);
-        echo "<pre>";
-        include_once(__DIR__."/overlappr.class.php");
-        echo "</pre>";
-    ?>
 <div class="container">
     <div class="center">
 
