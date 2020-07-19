@@ -3,7 +3,7 @@
     {
         public $authToken;
         public $refreshToken;
-        private $env;
+        protected $env;
 
         function __construct()
         {
@@ -57,8 +57,7 @@
             $this->refreshToken = $response->refresh_token;
 
             setCookie("refresh_token", $response->refresh_token, time() + (86400 * 7), "/");
-
-            $this->setUserID($authToken);
+            return $this->authToken;
         }
 
         function refreshToken(){

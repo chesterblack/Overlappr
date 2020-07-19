@@ -220,7 +220,7 @@
 
     $overlappr = new Overlappr();
 
-    error_reporting(E_ALL);
+    // error_reporting(E_ALL);
 
     if (isset($_GET['refresh']) && $_GET['playlists']) {
         $overlappr->refreshToken = $_GET['refresh'];
