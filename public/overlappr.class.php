@@ -7,22 +7,6 @@
         public $userID;
         public $url;
 
-        function setUserID($authToken)
-        {
-            $headers = "Authorization: Bearer ".$authToken."\r\n";
-
-            $user = json_decode($this->makeRequest(
-                "GET",
-                "https://api.spotify.com/v1/me",
-                null,
-                $headers
-            ));
-
-            $this->userObj = $user;
-            $this->userID = $user->id;
-            return $this->userID;
-        }
-
         function getPlaylists()
         {
             $authToken = $this->refreshToken();
@@ -120,54 +104,6 @@
                 $newPlaylist = array_intersect($activePlaylists[0], $activePlaylists[1]);
                 return $newPlaylist;
             }
-        }
-
-        function createPlaylist($name)
-        {
-            $authToken = $this->refreshToken();
-            $url = "https://api.spotify.com/v1/users/".$this->userID."/playlists";
-
-            $data = [
-                "name" => $name,
-                "public" => false,
-                "description" => "Created using Overlappr"
-            ];
-
-            $headers = "Accept: application/json\r\n";
-            $headers .= "Content-Type: application/json\r\n";
-            $headers .= "Authorization: Bearer ".$authToken."\r\n";
-
-            $newPlaylist = $this->makeRequest(
-                "POST",
-                $url,
-                json_encode($data),
-                $headers
-            );
-
-            return ($newPlaylist);
-        }
-        function addSongsToPlaylist($playlist, $songs)
-        {
-            $authToken = $this->refreshToken();
-            $url = "https://api.spotify.com/v1/playlists/".$playlist."/tracks";
-
-            $data = [
-                "uris" => $songs,
-                "position" => 0
-            ];
-
-            $headers = "Accept: application/json\r\n";
-            $headers .= "Content-Type: application/json\r\n";
-            $headers .= "Authorization: Bearer ".$authToken."\r\n";
-
-            $newPlaylist = $this->makeRequest(
-                "POST",
-                $url,
-                json_encode($data),
-                $headers
-            );
-
-            return ($newPlaylist);
         }
 
         function checkIfPlaylistExists($playlistName)
