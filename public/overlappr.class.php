@@ -4,13 +4,7 @@
     class Overlappr extends SpotifyAPI
     {
         public $userObj;
-        public $userID;
-
-        function __construct() 
-        {
-            parent::__construct();
-            $this->url = $this->env['overlappr_url'];
-        }    
+        public $userID;  
 
         function getPlaylists()
         {

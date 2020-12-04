@@ -3,13 +3,6 @@
     
     class Related extends SpotifyAPI
     {
-
-        function __construct() 
-        {
-            parent::__construct();
-            $this->url = $this->env['related_url'];
-        }  
-
         function getRelatedArtists($artistID)
         {
             $authToken = $this->refreshToken();
@@ -96,7 +89,6 @@
             return json_decode($artistData)->name;
         }
     }
-
 
     $related = new Related();
 
