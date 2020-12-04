@@ -88,11 +88,53 @@
 
             return json_decode($artistData)->name;
         }
+
+        function getSearchResults($searchTerm)
+        {
+            $authToken = $this->refreshToken();
+            $headers = "Accept: application/json\r\n";
+            $headers .= "Content-Type: application/json\r\n";
+            $headers .= "Authorization: Bearer ".$authToken."\r\n";
+
+            $searchTerm = urlencode($searchTerm);
+
+            $searchResults = $this->makeRequest(
+                "GET",
+                "https://api.spotify.com/v1/search?type=artist&limit=5&q=".$searchTerm,
+                null,
+                $headers
+            );
+
+            $formattedResults = [];
+
+            $searchResults = json_decode($searchResults)->artists->items;
+            $i = 0;
+            foreach ($searchResults as $result) {
+                $formattedResults[$i] = [
+                    "id" => $result->id,
+                    "name" => $result->name
+                ];
+
+                if (isset($result->images[0])) {
+                    $formattedResults[$i]["image"] = $result->images[0]->url;
+                } else {
+                    $formattedResults[$i]["image"] = "https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1214428300?b=1&k=6&m=1214428300&s=612x612&w=0&h=kMXMpWVL6mkLu0TN-9MJcEUx1oSWgUq8-Ny6Wszv_ms=";
+                }
+
+                $i++;
+            };
+
+            return json_encode($formattedResults);
+        }
     }
 
     $related = new Related();
 
-    if (isset($_GET['refresh']) && isset($_GET['artist'])) {
+    if (isset($_GET['refresh']) && isset($_GET['search'])) {
+        $related->refreshToken = $_GET['refresh'];
+        $searchResults = $related->getSearchResults($_GET['search']);
+        echo $searchResults;
+    } elseif (isset($_GET['refresh']) && isset($_GET['artist'])) {
         $related->refreshToken = $_GET['refresh'];
         $newPlaylist = $related->handlePlaylist($_GET['artist']);
         $userResponse = "<strong>".$newPlaylist->name."</strong> has been created <a target=\"_blank\" href=\"".$newPlaylist->external_urls->spotify."\">view new playlist</a><br />";
