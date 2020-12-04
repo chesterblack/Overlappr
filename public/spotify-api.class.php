@@ -3,6 +3,7 @@
     {
         public $authToken;
         public $refreshToken;
+        public $url;
         protected $env;
 
         function __construct()
@@ -99,7 +100,7 @@
             return $this->userID;
         }
 
-        function createPlaylist($name)
+        function createPlaylist($name, $description)
         {
             $authToken = $this->refreshToken();
             $url = "https://api.spotify.com/v1/users/".$this->userID."/playlists";
@@ -107,7 +108,7 @@
             $data = [
                 "name" => $name,
                 "public" => false,
-                "description" => "Created using Overlappr"
+                "description" => $description
             ];
 
             $headers = "Accept: application/json\r\n";

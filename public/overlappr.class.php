@@ -5,7 +5,12 @@
     {
         public $userObj;
         public $userID;
-        public $url;
+
+        function __construct() 
+        {
+            parent::__construct();
+            $this->url = $this->env['overlappr_url'];
+        }    
 
         function getPlaylists()
         {
@@ -135,7 +140,7 @@
                     $songListURIs[] = "spotify:track:".$song;
                 }
 
-                $newPlaylist = json_decode($this->createPlaylist($newPlaylistName));
+                $newPlaylist = json_decode($this->createPlaylist($newPlaylistName, "Created using Overlappr"));
                 $completedPlaylist = $this->addSongsToPlaylist($newPlaylist->id, $songListURIs);
                 return $newPlaylist;
             }
