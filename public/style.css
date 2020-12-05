@@ -6,21 +6,31 @@ body{
 pre{
     margin: 0;
 }
-.container{
-    font-family: 'Poppins', sans-serif;
-    color: #ffffff;
 
+.discovr.container {
+    background: rgb(56,14,88);
+    background: linear-gradient(90deg, rgba(56,14,88,1) 0%, rgba(27,104,87,1) 58%, rgba(23,128,89,1) 69%, rgba(16,167,93,1) 82%, rgba(0,255,102,1) 100%);    
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.overlappr.container {
     background-color: #21D4FD;
     background: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);
     background-repeat: no-repeat;
     background-size: cover;
-    min-height: 100vh;
-
-    text-align: center;
-    overflow: hidden;
 }
 
-.container::before {
+.container{
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff;
+    min-height: 100vh;
+    max-width: 100vw;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.overlappr.container::before {
     content: "";
     width: 160vh;
     height: 160vh;
@@ -33,7 +43,7 @@ pre{
     left: -18%;
     z-index: 2;
 }
-.container::after {
+.overlappr.container::after {
     content: "";
     width: 160vh;
     height: 160vh;
@@ -44,6 +54,31 @@ pre{
     border-radius: 100%;
     bottom: -70%;
     right: -18%;
+    z-index: 1;
+}
+
+.discovr.container::before {
+    content: "";
+    width: 160vh;
+    height: 160vh;
+    background: rgba(0,255,102,0.2);
+    display: block;
+    position: absolute;
+    border-radius: 25px;
+    top: -90%;
+    left: -18%;
+    z-index: 2;
+}
+.discovr.container::after {
+    content: "";
+    width: 60vh;
+    height: 60vh;
+    background: linear-gradient(-90deg, rgba(56,14,88,0.4) 0%, rgba(0,255,102,0.1) 100%);
+    display: block;
+    position: absolute;
+    border-radius: 25px;
+    bottom: 6%;
+    right: calc(45% - 60vh);
     z-index: 1;
 }
 
@@ -89,8 +124,8 @@ input[type="text"]{
     border: 3px solid #fff;
     border-radius: 50px;
     height: 60px;
-    width: 350px;
-    max-width: 100%;
+    max-width: 350px;
+    width: 100%;
     padding: 0 20px;
     font-size: 20px;
     font-family: 'Poppins', sans-serif;
@@ -129,10 +164,10 @@ a,
 button{
     border-radius: 50px;
     height: 60px;
-    width: 350px;
+    width: 100%;
+    max-width: 350px;
     border: 0;
     background: #ffffff;
-    color: #878cf7;
     font-weight: bold;
     font-size: 20px;
     font-family: 'Poppins', sans-serif;
@@ -141,8 +176,18 @@ button{
     border: 3px solid #fff;
     cursor: pointer;
     text-decoration: none;
-    max-width: 100%;
 }
+
+.overlappr a,
+.overlappr button {
+    color: #878cf7;
+}
+
+.discovr a,
+.discovr button {
+    color: #006e58;
+}
+
 a:hover,
 button:hover,
 button:disabled{
@@ -169,12 +214,17 @@ fieldset{
     position: relative;
     border: none;
     margin-top: 15px;
+    margin-right: 35px;
+    padding: 0;
 }
-#search {
-    border-radius: 25px 25px 0 0;
+#search:focus{
+    outline: none;
+}
+#search.open {
+    border-radius: 30px 30px 0 0;
 }
 #search::placeholder {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.6);
 }
 #dropdown {
     display: flex;
@@ -183,7 +233,7 @@ fieldset{
     background: none;
     border: 3px #fff solid;
     border-top: none;
-    border-radius: 0 0 25px 25px;
+    border-radius: 0 0 30px 30px;
     overflow: hidden;
     width: 100%;
     max-width: 350px;
@@ -213,7 +263,11 @@ fieldset{
     border-radius: 5px;
 }
 
-@media screen and (max-width: 400px) {
+.logged-in {
+    z-index: 2;
+}
+
+@media screen and (max-width: 895px) {
     h1{
         font-size: 50px;
         letter-spacing: -1px;
@@ -224,5 +278,24 @@ fieldset{
     }
     h2 a{
         display: block;
+    }
+
+    .discovr .center {
+        top: 35%;
+    }
+
+    .discovr form {
+        flex-direction: column-reverse;
+    }
+    #search,
+    fieldset {
+        margin: 10px 0;
+    }
+
+    #dropdown {
+        margin: 0;
+        margin-top: -10px;
+        overflow: scroll;
+        max-height: 200px;
     }
 }

@@ -1,34 +1,41 @@
-<?php
-
-    echo "<pre>";
-    include_once(__DIR__."/related.class.php");
-    echo "</pre>";
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Overlappr</title>
+    <title>Discovr</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
 
-<div class="container">
+<body>
+<?php
+    echo "<pre>";
+    include_once("related.class.php");
+    echo "</pre>";
+?>
+
+<div class="discovr container">
     <div class="center">
+        <h1>
+            Discovr
+        </h1>
+
+        <h2 id="feedback"><?= $userResponse ?? ""; ?>
+            Quickly make a playlist out of the top track of all related artists
+        </h2>
+
         <div id="feedback"></div>
         <form id="related" class="form">
             <fieldset>
                 <input type="text" name="search" id="search" placeholder="search...">
-                <div id="dropdown"></div>
+                <div id="dropdown" style="display:none"></div>
             </fieldset>
             <input type="hidden" name="artist" id="artist">
             <button id="cta">submit</button>
         </form>
     </div>
+    <span class="logged-in">Logged in as <?= $related->userObj->display_name ?></span>
 </div>
     <script>
         function ajax(method, url, callback, data){
@@ -60,7 +67,10 @@
             form.addEventListener("submit", function(e){
                 e.preventDefault();
 
-                searchDropdown.style.display = "none";
+                if (!searchBox.value) {
+                    searchDropdown.style.display = "none";
+                    searchBox.classList.remove("open");
+                }
 
                 let artist = document.getElementById('artist').value;
                 if (!artist) {
@@ -78,7 +88,6 @@
                         ctaButton.removeAttribute('disabled');
                     });
                 }
-
             })
 
             searchBox.addEventListener("keyup", () => {
@@ -100,6 +109,7 @@
                                     feedback.innerHTML = "";
                                     searchDropdown.innerHTML = "";
                                     searchDropdown.style.display = "flex";
+                                    searchBox.classList.add("open");
                                     for (result of results) {
                                         let name = result.name;
                                         let option = document.createElement("div");
@@ -129,3 +139,4 @@
         }
     </script>
 </body>
+</html>

@@ -3,6 +3,9 @@
     
     class Related extends SpotifyAPI
     {
+        public $userObj;
+        public $userID;
+
         function getRelatedArtists($artistID)
         {
             $authToken = $this->refreshToken();
@@ -129,7 +132,6 @@
     }
 
     $related = new Related();
-
     if (isset($_GET['refresh']) && isset($_GET['search'])) {
         $related->refreshToken = $_GET['refresh'];
         $searchResults = $related->getSearchResults($_GET['search']);
@@ -141,13 +143,14 @@
         echo $userResponse;
     } elseif(isset($_COOKIE['refresh_token'])) {
         $related->refreshToken = $_COOKIE['refresh_token'];
+        $related->setUserID($related->refreshToken());
     } elseif(isset($_GET['code'])) {
-        $related->getToken("playlist-modify-private");
+        $related->getToken("playlist-modify-private", $related->env['related_url']);
         if (!$related->authToken) {
-            echo "<script>window.location.href='https://accounts.spotify.com/authorize?client_id=1a0e4dc230e3429d9ad538490df3d3f0&response_type=code&redirect_uri=".$related->url."&scope=playlist-modify-private playlist-read-private';</script>";
+            echo "<script>window.location.href='https://accounts.spotify.com/authorize?client_id=1a0e4dc230e3429d9ad538490df3d3f0&response_type=code&redirect_uri=".$related->env['related_url']."&scope=playlist-modify-private playlist-read-private';</script>";
             exit;
         }
     } else {
-        echo "<script>window.location.href='https://accounts.spotify.com/authorize?client_id=1a0e4dc230e3429d9ad538490df3d3f0&response_type=code&redirect_uri=".$related->url."&scope=playlist-modify-private playlist-read-private';</script>";
+        echo "<script>window.location.href='https://accounts.spotify.com/authorize?client_id=1a0e4dc230e3429d9ad538490df3d3f0&response_type=code&redirect_uri=".$related->env['related_url']."&scope=playlist-modify-private playlist-read-private';</script>";
         exit;
     }

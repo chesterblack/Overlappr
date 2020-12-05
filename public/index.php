@@ -1,6 +1,4 @@
 <?php 
-    // ini_set("display_errors", "1");
-    // error_reporting(E_ALL);
     echo "<pre>";
     include_once(__DIR__."/overlappr.class.php");
     echo "</pre>";
@@ -15,7 +13,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="container">
+<div class="overlappr container">
     <div class="center">
         <h1>
             Overlappr
@@ -33,8 +31,8 @@
                 create new playlist
             </button>
         </form>
-        <span>Logged in as <?= $overlappr->userObj->display_name ?></span>
     </div>
+    <span class="logged-in">Logged in as <?= $overlappr->userObj->display_name ?></span>
 </div>
     <script>
         function ajax(method, url, callback, data){

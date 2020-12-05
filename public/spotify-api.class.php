@@ -4,7 +4,9 @@
         public $authToken;
         public $refreshToken;
         public $url;
-        protected $env;
+        public $env;
+        public $userID;
+        public $userObj;
 
         function __construct()
         {
@@ -34,12 +36,12 @@
             }
         }
 
-        function getToken($scope)
+        function getToken($scope, $redirectURL)
         {
             $requestBody = [
                 "grant_type" => "authorization_code",
                 "code" => $_GET['code'],
-                "redirect_uri" => $this->url,
+                "redirect_uri" => $redirectURL,
                 "scope" => $scope,
                 "client_id" => $this->env['client_id'],
                 "client_secret" => $this->env['client_secret']
@@ -56,6 +58,8 @@
 
             $this->authToken = $response->access_token;
             $this->refreshToken = $response->refresh_token;
+
+            $this->refreshToken();
 
             setCookie("refresh_token", $response->refresh_token, time() + (86400 * 7), "/");
             return $this->authToken;
