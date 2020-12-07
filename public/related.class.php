@@ -59,7 +59,7 @@
         function handlePlaylist($artistID)
         {
             $name = $this->getArtistName($artistID);
-            $newPlaylist = json_decode($this->createPlaylist("Related to ".$name, "The top ten tracks from every artist related to ".$name));
+            $newPlaylist = json_decode($this->createPlaylist("Related to ".$name, "The top ten tracks from every artist related to ".$name.", created using Discovr."));
             $trackListURIs = [];
             $tracks = $this->topTracksFromRelated($artistID);
             foreach ($tracks as $track) {

@@ -22,7 +22,7 @@
         </h1>
 
         <h2 id="feedback"><?= $userResponse ?? ""; ?>
-            Quickly make a playlist out of the top track of all related artists
+            Start typing and select from the dropdown to quickly make a playlist out of the top tracks of all related artists
         </h2>
 
         <div id="feedback"></div>
@@ -36,6 +36,11 @@
         </form>
     </div>
     <span class="logged-in">Logged in as <?= $related->userObj->display_name ?></span>
+
+    <div class="line-1"></div>
+    <div class="line-2"></div>
+    <div class="line-3"></div>
+    <div class="line-4"></div>
 </div>
     <script>
         function ajax(method, url, callback, data){
@@ -100,13 +105,15 @@
                         let keyword = document.getElementById('search').value;
 
                         if (keyword != ""){
+                            searchDropdown.style.display = "flex";
+                            searchBox.classList.add("open");
+                            searchDropdown.innerHTML = "Loading...";
+                            
                             ajax(
                                 "GET", 
                                 "<?= $related->url ?>/related.class.php?refresh=<?= $related->refreshToken ?>&search="+keyword, 
                                 function(response){
                                     let results = JSON.parse(response);
-                                    artistInput.value = "";
-                                    feedback.innerHTML = "";
                                     searchDropdown.innerHTML = "";
                                     searchDropdown.style.display = "flex";
                                     searchBox.classList.add("open");
@@ -132,7 +139,7 @@
                                 }
                             );
                         }
-                    }, 800
+                    }, 400
                 )
 
             })

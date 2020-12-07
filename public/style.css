@@ -9,7 +9,7 @@ pre{
 
 .discovr.container {
     background: rgb(56,14,88);
-    background: linear-gradient(90deg, rgba(56,14,88,1) 0%, rgba(27,104,87,1) 58%, rgba(23,128,89,1) 69%, rgba(16,167,93,1) 82%, rgba(0,255,102,1) 100%);    
+    background: linear-gradient(0deg, #185a9d 0%, #43cea2 100%);    
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -57,7 +57,7 @@ pre{
     z-index: 1;
 }
 
-.discovr.container::before {
+/* .discovr.container::before {
     content: "";
     width: 160vh;
     height: 160vh;
@@ -80,7 +80,7 @@ pre{
     bottom: 6%;
     right: calc(45% - 60vh);
     z-index: 1;
-}
+} */
 
 .center{
     max-width: 1200px;
@@ -185,7 +185,7 @@ button{
 
 .discovr a,
 .discovr button {
-    color: #006e58;
+    color: #4b929e;
 }
 
 a:hover,
@@ -217,14 +217,14 @@ fieldset{
     margin-right: 35px;
     padding: 0;
 }
-#search:focus{
+#search:focus {
     outline: none;
 }
 #search.open {
     border-radius: 30px 30px 0 0;
 }
 #search::placeholder {
-    color: rgba(255, 255, 255, 0.6);
+    color: #fff;
 }
 #dropdown {
     display: flex;
@@ -240,6 +240,9 @@ fieldset{
     margin: -16px 15px 0;
     box-sizing: border-box;
     min-height: 15px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 200px;
 }
 #dropdown .option {
     display: flex;
@@ -265,6 +268,50 @@ fieldset{
 
 .logged-in {
     z-index: 2;
+}
+
+.line-1 {
+    width: 200vw;
+    height: 100vh;
+    position: absolute;
+    top: -50%;
+    left: -100%;
+    background: linear-gradient(90deg, #43cea2 50%, #185a9d 100%);
+    opacity: 0.5;
+    border-radius: 100%;
+}
+
+.line-2 {
+    width: 160vw;
+    height: 100vh;
+    position: absolute;
+    top: -50%;
+    left: -100%;
+    background: linear-gradient(90deg, #43cea2 60%, #185a9d 100%);
+    opacity: 0.5;
+    border-radius: 100%;
+}
+
+.line-3 {
+    width: 160vw;
+    height: 100vh;
+    position: absolute;
+    bottom: -50%;
+    left: -100%;
+    background: linear-gradient(90deg, #185a9d 60%, #43cea2 100%);
+    opacity: 0.5;
+    border-radius: 100%;
+}
+
+.line-4 {
+    width: 200vw;
+    height: 100vh;
+    position: absolute;
+    bottom: -50%;
+    left: -100%;
+    background: linear-gradient(90deg, #185a9d 50%, #43cea2 100%);
+    opacity: 0.5;
+    border-radius: 100%;
 }
 
 @media screen and (max-width: 895px) {
@@ -295,7 +342,5 @@ fieldset{
     #dropdown {
         margin: 0;
         margin-top: -10px;
-        overflow: scroll;
-        max-height: 200px;
     }
 }
