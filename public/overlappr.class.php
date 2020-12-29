@@ -4,78 +4,7 @@
     class Overlappr extends SpotifyAPI
     {
         public $userObj;
-        public $userID;  
-
-        function getPlaylists()
-        {
-            $authToken = $this->refreshToken();
-            $headers = "Accept: application/json\r\n";
-            $headers .= "Content-Type: application/json\r\n";
-            $headers .= "Authorization: Bearer ".$authToken."\r\n";
-            
-            $playlists = $this->makeRequest(
-                "GET", 
-                "https://api.spotify.com/v1/users/".$this->userID."/playlists?limit=50",
-                null,
-                $headers
-            );
-
-            $playlists = json_decode($playlists);
-
-            return $playlists->items;
-        }
-
-        function getPlaylistNames($playlists)
-        {
-            $playlistNames = [];
-            foreach($playlists as $playlist) {
-                $playlistNames[] = $playlist->name;
-            }
-            return $playlistNames;
-        }
-
-        function getSongs($playlistID, $iteration = 0)
-        {
-            $authToken = $this->refreshToken();
-            $headers = "Accept: application/json\r\n";
-            $headers .= "Content-Type: application/json\r\n";
-            $headers .= "Authorization: Bearer ".$authToken."\r\n";
-
-            $offset = $iteration * 100;
-            
-            $songs = $this->makeRequest(
-                "GET", 
-                "https://api.spotify.com/v1/playlists/".$playlistID."/tracks?offset=".$offset,
-                null,
-                $headers
-            );
-
-            $songs = json_decode($songs);
-
-            return $songs->items;
-        }
-
-        function getSongListIDs($songs)
-        {
-            $ids = [];
-            foreach($songs as $song){
-                if ($song->track->id) {
-                    $ids[] = $song->track->id;
-                }
-            }
-            return $ids;
-        }
-
-        function getPlaylistID($playlistName)
-        {
-            $allPlaylists = $this->getPlaylists();
-
-            foreach($allPlaylists as $playlist) {
-                if ($playlist->name == $playlistName) {
-                    return $playlist->id;
-                }
-            }
-        }
+        public $userID;
 
         function getOverlap($selectedPlaylists)
         {

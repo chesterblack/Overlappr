@@ -44,22 +44,22 @@
 </div>
     <script>
         function ajax(method, url, callback, data){
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            console.log(this.status);
-            if (this.readyState == 4) {
-                callback(this.responseText);
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                console.log(this.status);
+                if (this.readyState == 4) {
+                    callback(this.responseText);
+                }
+            };
+
+            xhttp.open(method, url, true);
+
+            if (method == "POST") {
+                xhttp.send(data);
+            } else {
+                xhttp.send();
             }
-        };
-
-        xhttp.open(method, url, true);
-
-        if (method == "POST") {
-            xhttp.send(data);
-        } else {
-            xhttp.send();
         }
-    }
 
         window.onload = function(){
             let timer;
