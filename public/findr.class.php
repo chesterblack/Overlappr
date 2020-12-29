@@ -45,10 +45,10 @@
     } elseif (isset($_GET['code'])) {
         $findr->getToken("playlist-modify-private", $findr->env['url']);
         if (!$findr->authToken) {
-            echo "<script>window.location.href='https://accounts.spotify.com/authorize?client_id=1a0e4dc230e3429d9ad538490df3d3f0&response_type=code&redirect_uri=".$findr->env['url']."&scope=playlist-modify-private playlist-read-private';</script>";
+            echo "<script>window.location.href='https://accounts.spotify.com/authorize?client_id=1a0e4dc230e3429d9ad538490df3d3f0&response_type=code&redirect_uri=".$findr->env['findr_url']."&scope=playlist-modify-private playlist-read-private';</script>";
             exit;
         }
     } else {
-        echo "<script>window.location.href='https://accounts.spotify.com/authorize?client_id=1a0e4dc230e3429d9ad538490df3d3f0&response_type=code&redirect_uri=".$findr->env['url']."&scope=playlist-modify-private playlist-read-private';</script>";
+        echo "<script>window.location.href='https://accounts.spotify.com/authorize?client_id=1a0e4dc230e3429d9ad538490df3d3f0&response_type=code&redirect_uri=".$findr->env['findr_url']."&scope=playlist-modify-private playlist-read-private';</script>";
         exit;    
     }
