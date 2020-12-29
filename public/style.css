@@ -19,6 +19,41 @@ pre{
     background-repeat: no-repeat;
     background-size: cover;
 }
+.findr.container {
+    background: linear-gradient(#FDCD83 0%, #782D65 100%);
+}
+.findr.container::after {
+    content: "";
+    position: absolute;
+    left: 25%;
+    top: 25%;
+    width: 420px;
+    height: 420px;
+    transform: translate(-50%, -50%);
+    background-color: #FDCD83;
+    background: linear-gradient(#782D65 0%, #FDCD83 100%);
+    opacity: 0.5;
+    border-radius: 100%;
+}
+
+.findr.container .line-1 {
+    position: absolute;
+    top: 25%;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(90deg, #782D65 0%, #FDCD83 100%);
+    opacity: 0.3;
+}
+.findr.container .line-2 {
+    position: absolute;
+    top: 0%;
+    left: 25%;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(#782D65 0%, #FDCD83 100%);
+    opacity: 0.6;
+}
 
 .container{
     font-family: 'Poppins', sans-serif;
@@ -56,31 +91,6 @@ pre{
     right: -18%;
     z-index: 1;
 }
-
-/* .discovr.container::before {
-    content: "";
-    width: 160vh;
-    height: 160vh;
-    background: rgba(0,255,102,0.2);
-    display: block;
-    position: absolute;
-    border-radius: 25px;
-    top: -90%;
-    left: -18%;
-    z-index: 2;
-}
-.discovr.container::after {
-    content: "";
-    width: 60vh;
-    height: 60vh;
-    background: linear-gradient(-90deg, rgba(56,14,88,0.4) 0%, rgba(0,255,102,0.1) 100%);
-    display: block;
-    position: absolute;
-    border-radius: 25px;
-    bottom: 6%;
-    right: calc(45% - 60vh);
-    z-index: 1;
-} */
 
 .center{
     max-width: 1200px;
@@ -188,6 +198,11 @@ button{
     color: #4b929e;
 }
 
+.findr a,
+.findr button {
+    color: #bd8b7b;
+}
+
 a:hover,
 button:hover,
 button:disabled{
@@ -270,7 +285,7 @@ fieldset{
     z-index: 2;
 }
 
-.line-1 {
+.discovr .line-1 {
     width: 200vw;
     height: 100vh;
     position: absolute;
@@ -281,7 +296,7 @@ fieldset{
     border-radius: 100%;
 }
 
-.line-2 {
+.discovr .line-2 {
     width: 160vw;
     height: 100vh;
     position: absolute;
@@ -292,7 +307,7 @@ fieldset{
     border-radius: 100%;
 }
 
-.line-3 {
+.discovr .line-3 {
     width: 160vw;
     height: 100vh;
     position: absolute;
@@ -303,7 +318,7 @@ fieldset{
     border-radius: 100%;
 }
 
-.line-4 {
+.discovr .line-4 {
     width: 200vw;
     height: 100vh;
     position: absolute;

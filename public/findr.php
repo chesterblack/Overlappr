@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="overlappr container">
+<div class="findr container">
     <div class="center">
         <h1>
             Findr
@@ -29,6 +29,8 @@
         </form>
     </div>
     <span class="logged-in">Logged in as <?= $findr->userObj->display_name ?></span>
+    <div class="line-1"></div>
+    <div class="line-2"></div>
 </div>
     <script>
         function ajax(method, url, callback, data){
