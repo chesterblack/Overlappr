@@ -32,7 +32,7 @@
                 <div id="dropdown" style="display:none"></div>
             </fieldset>
             <input type="hidden" name="artist" id="artist">
-            <button id="cta">submit</button>
+            <button id="cta">create new playlist</button>
         </form>
     </div>
     <span class="logged-in">Logged in as <?= $related->userObj->display_name ?></span>
