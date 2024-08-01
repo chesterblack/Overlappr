@@ -1,0 +1,26 @@
+$color_overlapper_1: #21D4FD;
+$color_overlapper_2: #B721FF;
+
+body {
+	margin: 0;
+	padding: 0;
+	max-width: 100vw;
+	min-height: 100vh;
+}
+
+.overlappr {
+	background-color: #21D4FD;
+	background: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);
+	background-repeat: no-repeat;
+	background-size: cover;
+	color: #ffffff;
+}
+
+main {
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
