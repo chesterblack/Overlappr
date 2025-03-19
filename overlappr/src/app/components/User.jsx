@@ -1,20 +1,23 @@
 'use client'
 
-import { useEffect, useState } from "react";
-import { sendApiRequest } from "../lib/utilities";
+import { useContext, useEffect, useState } from "react";
+import { sendSpotifyApiRequest } from "../lib/utilities";
+import MainContext from "../context";
 
 export default function User() {
-	const [ username, setUsername ] = useState( '' );
+	const { accessToken } = useContext( MainContext );
+	const [ username, setUsername ] = useState();
+
   useEffect(() => {
 		( async() => {
-			const response = await sendApiRequest('GET', '/auth');
-			console.log(response);
+			const { displayName } = await sendSpotifyApiRequest( 'me', accessToken );
+			setUsername( displayName );
 		} )()
-  }, [ setUsername ]);
+  }, []);
 
-  return (
+	return (
 		<span>
-			Hi, {username}
+			{ username && `Hi, ${ username }` }
 		</span>
 	)
 }
