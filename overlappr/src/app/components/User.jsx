@@ -8,16 +8,15 @@ export default function User() {
 	const { accessToken } = useContext( MainContext );
 	const [ username, setUsername ] = useState();
 
-  useEffect(() => {
+	useEffect( () => {
 		( async() => {
-			const { displayName } = await sendSpotifyApiRequest( 'me', accessToken );
-			setUsername( displayName );
+			const { display_name } = await sendSpotifyApiRequest(
+				'me',
+				accessToken
+			);
+			setUsername( display_name );
 		} )()
-  }, []);
+	}, [] );
 
-	return (
-		<span>
-			{ username && `Hi, ${ username }` }
-		</span>
-	)
+	return ( username && <span>Hi, { username }</span> )
 }

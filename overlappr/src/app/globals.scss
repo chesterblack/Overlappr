@@ -9,11 +9,44 @@ body {
 }
 
 .overlappr {
-	background-color: #21D4FD;
-	background: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);
+	background-color: $color_overlapper_1;
+	background: linear-gradient(19deg, $color_overlapper_1 0%, $color_overlapper_2 100%);
 	background-repeat: no-repeat;
 	background-size: cover;
 	color: #ffffff;
+
+	&::before {
+		content: "";
+		width: 160vh;
+		height: 160vh;
+		background: rgba(33, 212, 253, 0.4);
+		/* background: rgba(185, 33, 255,0.2); */
+		display: block;
+		position: absolute;
+		border-radius: 100%;
+		top: -70%;
+		left: -18%;
+		z-index: 2;
+	}
+
+	&::after {
+		content: "";
+		width: 160vh;
+		height: 160vh;
+		/* background: rgba(33, 212, 253, 0.2); */
+		background: rgba(185, 33, 255,0.4);
+		display: block;
+		position: absolute;
+		border-radius: 100%;
+		bottom: -70%;
+		right: -18%;
+		z-index: 1;
+	}
+	
+	main {
+		z-index: 10;
+		position: relative;
+	}
 }
 
 main {
