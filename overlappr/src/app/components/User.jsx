@@ -5,18 +5,16 @@ import { sendSpotifyApiRequest } from "../lib/utilities";
 import MainContext from "../context";
 
 export default function User() {
-	const { accessToken } = useContext( MainContext );
-	const [ username, setUsername ] = useState();
+	const { accessToken, user, setUser } = useContext( MainContext );
 
 	useEffect( () => {
 		( async() => {
-			const { display_name } = await sendSpotifyApiRequest(
-				'me',
-				accessToken
-			);
-			setUsername( display_name );
+			if ( ! user ) {
+				const userData = await sendSpotifyApiRequest( 'me', accessToken );
+				setUser( userData );
+			}
 		} )()
 	}, [] );
 
-	return ( username && <span>Hi, { username }</span> )
+	return ( user?.display_name && <span>Hi, { user.display_name }</span> )
 }

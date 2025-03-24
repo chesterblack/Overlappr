@@ -1,3 +1,4 @@
+import PlaylistSelectors from "./PlaylistSelectors";
 import User from "./User"
 
 export default function MainPage({}) {
@@ -5,6 +6,7 @@ export default function MainPage({}) {
 		<>
 			<User />
 			<h1>Overlappr</h1>
+			<PlaylistSelectors />
 		</>
 	);
 }

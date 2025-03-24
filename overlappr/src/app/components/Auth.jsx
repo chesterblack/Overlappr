@@ -11,8 +11,6 @@ export default function Auth({}) {
 	const searchParams = useSearchParams()
 	const code = searchParams.get('code');
 
-	console.log( 'code: ', code );
-
 	useEffect( () => {
 		( async () => {
 			const redirect_uri = `${ process.env.NEXT_PUBLIC_SITE_URL }`;
@@ -23,7 +21,6 @@ export default function Auth({}) {
 
 			const response = await sendInternalApiRequest( 'GET', '/auth', { code, redirect_uri } );
 
-			console.log( 'response: ', response );
 			if ( response.success ) {
 				setAccessToken( response.message.access_token );
 				setRefreshToken( response.message.refresh_token );

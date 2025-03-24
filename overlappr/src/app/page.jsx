@@ -9,9 +9,10 @@ export default function Home() {
 	const [ accessToken, setAccessToken ] = useState();
 	const [ refreshToken, setRefreshToken ] = useState();
 	const [ tokenExpires, setTokenExpires ] = useState();
-	const [ inner, setInner ] = useState('');
+	const [ user, setUser ] = useState();
+	const [ playlists, setPlaylists ] = useState();
 
-	console.log( 'accessToken: ', accessToken );
+	const [ inner, setInner ] = useState('');
 
 	useEffect( () => {
 		if ( accessToken ) {
@@ -26,7 +27,9 @@ export default function Home() {
 		<MainContext.Provider value={{
 				accessToken, setAccessToken,
 				refreshToken, setRefreshToken,
-				tokenExpires, setTokenExpires
+				tokenExpires, setTokenExpires,
+				user, setUser,
+				playlists, setPlaylists
 			}}
 		>
 			<main>
