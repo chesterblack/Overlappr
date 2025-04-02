@@ -1,16 +1,15 @@
-export default function PlaylistOption({ playlist }) {
-	if ( ! playlist ) {
-		return (
-			<option disabled selected>
-				<span>Select a playlist</span>
-			</option>
-		);
-	}
-
+export default function PlaylistOption( {
+	playlist,
+	setSelectedPlaylist,
+	onChange
+} ) {
 	return (
-		<option value={ playlist.id }>
-			<img src={ playlist.images[0] } />
-			<span>{ playlist.name }</span>
-		</option>
+		<div className='option' onClick={ () => {
+			setSelectedPlaylist( playlist );
+			onChange( playlist.id );
+			document.activeElement.blur();
+		} }>
+			{ playlist.name }
+		</div>
 	);
 }

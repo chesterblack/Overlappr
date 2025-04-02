@@ -15,11 +15,14 @@ export default function Auth({}) {
 		( async () => {
 			const redirect_uri = `${ process.env.NEXT_PUBLIC_SITE_URL }`;
 
-			if ( !code ) {
+			if ( ! code ) {
 				window.location.assign( `https://accounts.spotify.com/authorize?client_id=${ process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID }&response_type=code&redirect_uri=${ redirect_uri }&scope=playlist-modify-private playlist-read-private` );
 			}
 
-			const response = await sendInternalApiRequest( 'GET', '/auth', { code, redirect_uri } );
+			const response = await sendInternalApiRequest( 'GET', 'auth', {
+				code,
+				redirect_uri
+			} );
 
 			if ( response.success ) {
 				setAccessToken( response.message.access_token );

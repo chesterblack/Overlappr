@@ -10,7 +10,7 @@ export default function User() {
 	useEffect( () => {
 		( async() => {
 			if ( ! user ) {
-				const userData = await sendSpotifyApiRequest( 'me', accessToken );
+				const userData = await sendSpotifyApiRequest( accessToken, 'GET', 'me' );
 				setUser( userData );
 			}
 		} )()

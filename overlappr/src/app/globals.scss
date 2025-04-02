@@ -6,6 +6,7 @@ body {
 	padding: 0;
 	max-width: 100vw;
 	min-height: 100vh;
+	overflow: hidden;
 }
 
 .overlappr {
@@ -50,10 +51,71 @@ body {
 }
 
 main {
-	width: 100%;
 	height: 100vh;
+	width: 90%;
+	max-width: 1200px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
+	margin: 0 auto;
+}
+
+.selectors {
+	display: flex;
+	gap: 15px;
+	width: 100%;
+	justify-content: center;
+	margin-bottom: 20px;
+
+	.x {
+		display: flex;
+		align-items: center;
+	}
+}
+
+.select {
+	padding: 5px;
+	border: 3px solid #fff;
+	border-radius: 7px;
+	background: #00000055;
+	position: relative;
+	width: 100%;
+	max-width: 300px;
+	cursor: pointer;
+
+	&:focus {
+		.options {
+			display: block;
+		}
+	}
+}
+
+.options {
+	overflow: scroll;
+	max-height: 150px;
+	position: absolute;
+	top: 100%;
+	left: -3px;
+	padding: 5px;
+	border: 3px solid #fff;
+	border-radius: 7px;
+	background: #00000055;
+	display: none;
+	z-index: 20;
+	width: calc(100% - 10px);
+}
+
+.option {
+	padding: 5px 10px;
+	cursor: pointer;
+
+	&:hover {
+		background: #000;
+		border-radius: 4px;
+	}
+}
+
+.new-playlist {
+	text-align: center;
 }
