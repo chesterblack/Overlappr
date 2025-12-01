@@ -1,105 +1,56 @@
 "use client"
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import PlaylistSelector from "./PlaylistSelector";
-import { fetchAllItems, sendSpotifyApiRequest } from "../lib/utilities";
-import { Playlist } from "../types";
+import { Component, Playlist } from "../types";
 import MainContext from "../context";
 import NewPlaylistMessage from "./NewPlaylistMessage";
 import ErrorMessage from "./ErrorMessage";
+import { createPlaylist, fetchPlaylistTracks, findOverlap } from "../lib/createPlaylists";
 
 
-export default function PlaylistSelectors({}) {
-	const { accessToken, user, playlists, setPlaylists } = useContext( MainContext );
-	const [ playlistIdA, setPlaylistIdA ] = useState<string>();
-	const [ playlistIdB, setPlaylistIdB ] = useState<string>();
+export default function PlaylistSelectors(): Component {
+	const { accessToken, user } = useContext( MainContext );
+	const [ playlistA, setPlaylistA ] = useState<Playlist>();
+	const [ playlistB, setPlaylistB ] = useState<Playlist>();
+
 	const [ newPlaylist, setNewPlaylist ] = useState<Playlist>();
 	const [ errorMessage, setErrorMessage ] = useState<string>();
 
-	async function fetchPlaylistItems( playlistId: string ): Promise<any> {
-		const items = await fetchAllItems(
-			accessToken,
-			`playlists/${ playlistId }/tracks`
-		);
+	const buttonEnabled = playlistA && playlistB;
 
-		return items;
-	}
-
-	async function findOverlap() {
-		const playlistAItems = await fetchPlaylistItems( playlistIdA );
-		const playlistBItems = await fetchPlaylistItems( playlistIdB );
-
-		const playlistATrackUris = playlistAItems.map( ( i ) => i?.track?.uri );
-		const playlistBTrackUris = playlistBItems.map( ( i ) => i?.track?.uri );
-
-		const overlap = playlistATrackUris.filter( (t) => {
-			if ( playlistBTrackUris.includes( t ) ) {
-				console.log( 't: ', t );
-			}
-			return playlistBTrackUris.includes( t );
-		} );
-
-		console.log( 'overlap: ', overlap );
-
-		return overlap;
-	}
-
-	async function createOverlappedPlaylist() {
-		setErrorMessage( null );
-		setNewPlaylist( null );
-		const overlap = await findOverlap();
-
-		if ( overlap.length < 1 ) {
-			setErrorMessage( 'No overlap' );
+	async function generatePlaylist() {
+		if ( ! playlistA || ! playlistB ) {
 			return;
 		}
 
-		const endpoint = `users/${ user.id }/playlists`;
+		const tracksA = await fetchPlaylistTracks( accessToken, playlistA );
+		const tracksB = await fetchPlaylistTracks( accessToken, playlistB );
 
-		const playlistA = playlists.find( i => i.id === playlistIdA );
-		const playlistB = playlists.find( i => i.id === playlistIdB );
+		const overlap = findOverlap( tracksA, tracksB );
 
 		const name = `${ playlistA.name } ⚭ ${ playlistB.name }`;
 		const description = `All songs that are in both '${ playlistA.name }' and '${ playlistB.name }'. Created with Overlappr.`;
 
-		const newPlaylistDetails = {
+		const newPlaylist = await createPlaylist(
+			accessToken,
+			user,
+			overlap,
 			name,
-			description,
-			public: false
-		}
-	
-		const newPlaylist = await sendSpotifyApiRequest(
-			accessToken,
-			'POST',
-			endpoint,
-			null,
-			newPlaylistDetails
-		);
-
-		console.log( 'newPlaylist: ', newPlaylist );
-
-		await sendSpotifyApiRequest(
-			accessToken,
-			'POST',
-			`playlists/${ newPlaylist.id }/tracks`,
-			null,
-			{ uris: overlap }
+			description
 		);
 
 		setNewPlaylist( newPlaylist );
 	}
 
-
-	const buttonEnabled = playlistIdA && playlistIdB;
-
 	return (
 		<>
 			<div className="selectors">
-				<PlaylistSelector onChange={ setPlaylistIdA } />
+				<PlaylistSelector selectedPlaylist={ playlistA } onChange={ setPlaylistA } />
 				<span className="x">⚭</span>
-				<PlaylistSelector onChange={ setPlaylistIdB } />
+				<PlaylistSelector selectedPlaylist={ playlistB } onChange={ setPlaylistB } />
 
-				<button onClick={ createOverlappedPlaylist } disabled={ ! buttonEnabled }>
+				<button onClick={ generatePlaylist } disabled={ ! buttonEnabled }>
 					Go!
 				</button>
 			</div>

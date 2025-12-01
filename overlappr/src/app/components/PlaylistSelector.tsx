@@ -6,18 +6,17 @@ import PlaylistOption from "./PlaylistOption";
 import { Playlist } from "../types";
 
 interface Props {
-	onChange: ( id: string ) => void
+	selectedPlaylist: Playlist
+	onChange: ( playlist: Playlist ) => void
 }
 
-export default function PlaylistSelector( { onChange }: Props ) {
+export default function PlaylistSelector( { selectedPlaylist, onChange }: Props ) {
 	const { playlists } = useContext( MainContext );
-	const [ selectedPlaylist, setSelectedPlaylist ] = useState<Playlist>();
 
 	const playlistOptions = playlists?.map( ( playlist: Playlist ) => (
 		<PlaylistOption
 			playlist={ playlist }
 			key={ playlist.id }
-			setSelectedPlaylist={ setSelectedPlaylist }
 			onChange={ onChange }
 		/>
 	) );

@@ -76,7 +76,7 @@ export async function fetchAllItems(
 	endpoint: string,
 	itemsAttribute: string = 'items',
 	nextAttribute: string = 'next'
-) {
+): Promise<any[]> {
 	const firstList = await sendSpotifyApiRequest(
 		accessToken,
 		'GET',

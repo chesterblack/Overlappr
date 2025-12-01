@@ -2,19 +2,16 @@ import { Playlist, SetState } from "../types";
 
 interface Props {
 	playlist: Playlist
-	setSelectedPlaylist: SetState<Playlist>
-	onChange: ( id: string ) => void
+	onChange: ( playlist: Playlist ) => void
 }
 
 export default function PlaylistOption( {
 	playlist,
-	setSelectedPlaylist,
 	onChange
 }: Props ) {
 
 	function onClick() {
-		setSelectedPlaylist( playlist );
-		onChange( playlist.id );
+		onChange( playlist );
 
 		try {
 			( document.activeElement as HTMLElement ).blur();

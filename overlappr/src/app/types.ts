@@ -18,6 +18,14 @@ export interface Playlist {
 	external_urls: {
 		spotify: string
 	}
+	tracks: {
+		href: string
+	}
+}
+
+export interface Track {
+	id: string
+	uri: string
 }
 
 export interface User {

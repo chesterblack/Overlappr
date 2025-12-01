@@ -5,6 +5,7 @@ import MainContext from "../context";
 import { fetchAllItems } from "../lib/utilities";
 import { Component } from "../types";
 
+
 export default function MainPage(): Component {
 	const { playlists, setPlaylists, accessToken } = useContext( MainContext );
 
