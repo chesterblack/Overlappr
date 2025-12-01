@@ -16,21 +16,6 @@ export default function PlaylistSelectors({}) {
 	const [ newPlaylist, setNewPlaylist ] = useState<Playlist>();
 	const [ errorMessage, setErrorMessage ] = useState<string>();
 
-	useEffect(() => {
-		( async () => {
-			const response = await fetch( 'https://api.spotify.com/v1/playlists/2TmyYbudsINZNscclPYuRW/tracks?offset=400&limit=100&locale=en-GB,en-US;q%3D0.9,en;q%3D0.8', {
-				cache: 'no-store',
-				method: 'GET',
-				headers: {
-					Authorization: 'Bearer ' + accessToken
-				}
-			} );
-
-			console.log( 'response: ', response );
-		} )()
-	}, []);
-
-
 	async function fetchPlaylistItems( playlistId: string ): Promise<any> {
 		const items = await fetchAllItems(
 			accessToken,
@@ -69,8 +54,6 @@ export default function PlaylistSelectors({}) {
 			return;
 		}
 
-		return;
-
 		const endpoint = `users/${ user.id }/playlists`;
 
 		const playlistA = playlists.find( i => i.id === playlistIdA );
@@ -92,6 +75,8 @@ export default function PlaylistSelectors({}) {
 			null,
 			newPlaylistDetails
 		);
+
+		console.log( 'newPlaylist: ', newPlaylist );
 
 		await sendSpotifyApiRequest(
 			accessToken,
