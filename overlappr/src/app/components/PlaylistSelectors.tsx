@@ -7,13 +7,15 @@ import MainContext from "../context";
 import NewPlaylistMessage from "./NewPlaylistMessage";
 import ErrorMessage from "./ErrorMessage";
 import { createPlaylist, fetchPlaylistTracks, findOverlap } from "../lib/createPlaylists";
+import Loading from "./Loading";
 
 
 export default function PlaylistSelectors(): Component {
 	const { accessToken, user } = useContext( MainContext );
+
 	const [ playlistA, setPlaylistA ] = useState<Playlist>();
 	const [ playlistB, setPlaylistB ] = useState<Playlist>();
-
+	const [ isLoading, setIsLoading ] = useState<boolean>( false );
 	const [ newPlaylist, setNewPlaylist ] = useState<Playlist>();
 	const [ errorMessage, setErrorMessage ] = useState<string>();
 
@@ -23,6 +25,8 @@ export default function PlaylistSelectors(): Component {
 		if ( ! playlistA || ! playlistB ) {
 			return;
 		}
+
+		setIsLoading( true );
 
 		const tracksA = await fetchPlaylistTracks( accessToken, playlistA );
 		const tracksB = await fetchPlaylistTracks( accessToken, playlistB );
@@ -41,6 +45,7 @@ export default function PlaylistSelectors(): Component {
 		);
 
 		setNewPlaylist( newPlaylist );
+		setIsLoading( false );
 	}
 
 	return (
@@ -49,12 +54,13 @@ export default function PlaylistSelectors(): Component {
 				<PlaylistSelector selectedPlaylist={ playlistA } onChange={ setPlaylistA } />
 				<span className="x">⚭</span>
 				<PlaylistSelector selectedPlaylist={ playlistB } onChange={ setPlaylistB } />
-
-				<button onClick={ generatePlaylist } disabled={ ! buttonEnabled }>
-					Go!
-				</button>
 			</div>
 
+			<button onClick={ generatePlaylist } disabled={ ! buttonEnabled } className="go-button">
+				Go!
+			</button>
+
+			{ isLoading && <Loading /> }
 			<ErrorMessage>{ errorMessage }</ErrorMessage>
 			<NewPlaylistMessage playlist={ newPlaylist } />
 		</>

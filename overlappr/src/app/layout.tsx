@@ -1,7 +1,7 @@
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.scss";
 
-const inter = Inter( { subsets: [ "latin" ] } );
+const poppins = Poppins( { weight: ['300', '500', '800', '900'] } );
 
 export const metadata = {
 	title: 'Overlappr',
@@ -11,7 +11,7 @@ export const metadata = {
 export default function RootLayout( { children } ) {
 	return (
 		<html lang="en">
-			<body className={ `${ inter.className } overlappr` }>
+			<body className={ `${ poppins.className } overlappr` }>
 				{ children }
 			</body>
 		</html>

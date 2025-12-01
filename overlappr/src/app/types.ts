@@ -12,6 +12,12 @@ export type InternalApiResponse = Promise<NextResponse<{
 	message: any
 }>>
 
+export interface Image {
+	height: number
+	width: number
+	url: string
+}
+
 export interface Playlist {
 	id: string
 	name: string
@@ -20,6 +26,9 @@ export interface Playlist {
 	}
 	tracks: {
 		href: string
+	}
+	images: {
+		[ key: number ]: Image
 	}
 }
 

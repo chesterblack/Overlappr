@@ -4,12 +4,9 @@ import { fetchAllItems, sendSpotifyApiRequest, stripSpotifyBase } from "./utilit
 export async function fetchPlaylistTracks(
 	accessToken: string,
 	playlist: Playlist
-): Promise<any[]> {
-	if ( ! playlist ) {
-		return;
-	}
-
+) {
 	const url = stripSpotifyBase( playlist.tracks.href );
+
 	const items = await fetchAllItems( accessToken, url );
 	const tracks = items.map( t => t.track );
 

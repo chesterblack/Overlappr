@@ -1,5 +1,50 @@
-$color_overlapper_1: #21D4FD;
-$color_overlapper_2: #B721FF;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+$color_overlappr_1: #21D4FD;
+$color_overlappr_2: #B721FF;
+
+$color_overlappr_dim_1: rgba(33, 212, 253, 0.4);
+$color_overlappr_dim_2: rgba(185, 33, 255,0.4);
+
+@mixin gradient-outline {
+	background: linear-gradient( -45deg, $color_overlappr_1, $color_overlappr_2 );
+	box-shadow: 0 2px 13px -5px #000000;
+	z-index: 1;
+
+	&::after {
+		content: '';
+		display: block;
+		width: calc( 100% - 10px );
+		height: calc( 100% - 10px );
+		left: 50%;
+		top: 50%;
+		transform: translate( -50%, -50% );
+		position: absolute;
+		border-radius: 30px;
+		background-color: #000000;
+		z-index: -1;
+		transition: .1s ease-in-out;
+	}
+
+	&:hover {
+		&::after {
+			width: 100%;
+			height: 100%;
+		}
+	}
+}
+
+@mixin pill-like() {
+	border: none;
+	border-radius: 30px;
+	padding: 10px 35px;
+	position: relative;
+}
+
+* {
+	font-family: 'Poppins', sans-serif;
+	font-weight: 300;
+}
 
 body {
 	margin: 0;
@@ -9,9 +54,16 @@ body {
 	overflow: hidden;
 }
 
+h1 {
+	margin: 0 0 30px 0;
+	font-size: 70px;
+	font-weight: 900;
+	letter-spacing: -1px;
+}
+
 .overlappr {
-	background-color: $color_overlapper_1;
-	background: linear-gradient(19deg, $color_overlapper_1 0%, $color_overlapper_2 100%);
+	background-color: $color_overlappr_1;
+	background: linear-gradient(19deg, $color_overlappr_1 0%, $color_overlappr_2 100%);
 	background-repeat: no-repeat;
 	background-size: cover;
 	color: #ffffff;
@@ -66,7 +118,7 @@ main {
 	gap: 15px;
 	width: 100%;
 	justify-content: center;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 
 	.x {
 		display: flex;
@@ -75,47 +127,151 @@ main {
 }
 
 .select {
+	@include pill-like();
 	padding: 5px;
-	border: 3px solid #fff;
-	border-radius: 7px;
-	background: #00000055;
-	position: relative;
+	background-color: #ffffff;
+	color: #000000;
 	width: 100%;
 	max-width: 300px;
 	cursor: pointer;
 
+	img {
+		border-radius: 100%;
+	}
+
 	&:focus {
+		border-radius: 20px 20px 0 0;
+
 		.options {
 			display: block;
 		}
 	}
 }
 
+.select-inner {
+	display: flex;
+	align-items: center;
+	height: 100%;
+	gap: 10px;
+	padding: 5px 10px;
+	box-sizing: border-box;
+
+	&.has-image {
+		padding: 0px;
+	}
+}
+
+.select:nth-of-type(1) {
+	.option {
+		&:hover {
+			background-color: $color_overlappr_dim_1;
+		}
+	}
+}
+
+.select:nth-of-type(2) {
+	.option {
+		&:hover {
+			background-color: $color_overlappr_dim_2;
+		}
+	}
+}
+
 .options {
+	@include pill-like();
+	background-color: #ffffff;
+	color: #000000;
+	border-radius: 0 0 20px 20px;
+	padding: 5px;
 	overflow: scroll;
 	max-height: 150px;
 	position: absolute;
 	top: 100%;
-	left: -3px;
-	padding: 5px;
-	border: 3px solid #fff;
-	border-radius: 7px;
-	background: #00000055;
+	left: 0;
 	display: none;
 	z-index: 20;
 	width: calc(100% - 10px);
 }
 
 .option {
+	@include pill-like();
 	padding: 5px 10px;
 	cursor: pointer;
-
-	&:hover {
-		background: #000;
-		border-radius: 4px;
-	}
 }
 
 .new-playlist {
 	text-align: center;
+}
+
+@keyframes loading-venn-1 {
+	0% { top: -7px; left: calc( 50% + -7px ); }
+	50% { top: 7px; left: calc( 50% + 7px ); }
+	100% { top: -7px; left: calc( 50% + -7px ); }
+}
+
+@keyframes loading-venn-2 {
+	0% { top: 7px; left: calc( 50% + 7px ); }
+	50% { top: -7px; left: calc( 50% + -7px ); }
+	100% { top: 7px; left: calc( 50% + 7px ); }
+}
+
+.loading-venn {
+	position: relative;
+	animation: loading-venn-rotate 5s infinite linear;
+
+	div {
+		position: absolute;
+		width: 30px;
+		height: 30px;
+		border-radius: 100%;
+		mix-blend-mode: plus-lighter;
+		transform: translateX( -50% );
+	}
+
+	div:nth-of-type( 1 ),
+	div:nth-of-type( 3 ) {
+		animation: loading-venn-1 2s infinite;
+		background-color: $color_overlappr_1;
+	}
+	div:nth-of-type( 2 ),
+	div:nth-of-type( 4 ) {
+		animation: loading-venn-2 2s infinite;
+		background-color: $color_overlappr_2;
+	}
+
+	div:nth-of-type( 1 ),
+	div:nth-of-type( 2 ) {
+		z-index: -1;
+		background-color: #000000;
+	}
+}
+
+button {
+	@include pill-like();
+	@include gradient-outline();
+	background-color: #000000;
+	color: #ffffff;
+	font-weight: bold;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+.go-button {
+	margin-bottom: 15px;
+}
+
+.new-playlist {
+	margin-top: 30px;
+
+	a {
+		color: #fff;
+		text-decoration: none;
+		font-weight: 900;
+		border-bottom: 2px solid #ffffff;
+		transition: .05s ease-in-out;
+
+		&:hover {
+			border-bottom: 5px solid #ffffff;
+		}
+	}
 }

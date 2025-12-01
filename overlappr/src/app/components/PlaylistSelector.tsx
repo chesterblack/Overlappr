@@ -1,9 +1,11 @@
 "use client"
 
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import MainContext from "../context";
 import PlaylistOption from "./PlaylistOption";
 import { Playlist } from "../types";
+import Loading from "./Loading";
+import SelectedPlaylist from "./SelectedPlaylist";
 
 interface Props {
 	selectedPlaylist: Playlist
@@ -23,8 +25,8 @@ export default function PlaylistSelector( { selectedPlaylist, onChange }: Props 
 
 	return (
 		<div tabIndex={ 0 } className='select'>
-			<div>
-				{ selectedPlaylist?.name || 'Select a playlist' }
+			<div className={ `select-inner ${ selectedPlaylist ? 'has-image' : '' }` }>
+				{ selectedPlaylist ? <SelectedPlaylist playlist={ selectedPlaylist } /> : 'Select a playlist' }
 			</div>
 			<div className="options">
 				{ playlistOptions }
