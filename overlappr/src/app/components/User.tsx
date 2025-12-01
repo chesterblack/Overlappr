@@ -1,15 +1,15 @@
 'use client'
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { sendSpotifyApiRequest } from "../lib/utilities";
 import MainContext from "../context";
 
-export default function User() {
+export default function UserGreeting() {
 	const { accessToken, user, setUser } = useContext( MainContext );
 
 	useEffect( () => {
 		( async() => {
-			if ( ! user ) {
+			if ( ! user && accessToken ) {
 				const userData = await sendSpotifyApiRequest( accessToken, 'GET', 'me' );
 				setUser( userData );
 			}

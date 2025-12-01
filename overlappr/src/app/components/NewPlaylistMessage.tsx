@@ -1,4 +1,10 @@
-export default function NewPlaylistMessage({ playlist }) {
+import { Component, Playlist } from "../types";
+
+interface Props {
+	playlist: Playlist
+}
+
+export default function NewPlaylistMessage( { playlist }: Props ): Component {
 	if ( ! playlist ) {
 		return;
 	}

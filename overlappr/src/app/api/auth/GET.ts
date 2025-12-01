@@ -1,40 +1,37 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { InternalApiResponse } from "../../types";
 
-export default async function authEndpointGet( request ) {
+export default async function authEndpointGet( request: NextRequest ): InternalApiResponse {
 	const { searchParams } = new URL(request.url);
-	const code = searchParams.get('code');
-	const redirect_uri = searchParams.get('redirect_uri');
+	const code = searchParams.get( 'code' );
+	const redirect_uri = searchParams.get( 'redirect_uri' );
 
 	const encodedKeys = btoa(
 		`${ process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID }:${ process.env.SPOTIFY_CLIENT_SECRET }`
 	);
 
-	const data = {
-		grant_type: 'authorization_code',
-		code: code,
-		redirect_uri: redirect_uri
-	}
+	const data = { grant_type: 'authorization_code', code, redirect_uri };
 
-	let formBody = [];
+	let formBodyArr = [];
 	for (let property in data) {
 		const encodedKey = encodeURIComponent( property );
 		const encodedValue = encodeURIComponent( data[ property ] );
-		formBody.push( encodedKey + "=" + encodedValue );
+		formBodyArr.push( encodedKey + '=' + encodedValue );
 	}
-	formBody = formBody.join("&");
+	const formBodyStr = formBodyArr.join( '&' );
 
 	const response = await fetch(
 		'https://accounts.spotify.com/api/token',
 		{
 			cache: 'no-store',
 			method: 'POST',
-			body: formBody,
+			body: formBodyStr,
 			headers: {
 				Authorization: `Basic ${ encodedKeys }`,
 				'Content-Type': 'application/x-www-form-urlencoded'
 			}
 		}
-	)
+	);
 
 	const responseBody = await response.json();
 

@@ -1,10 +1,12 @@
+import { InternalApiResponse, RestMethod } from "../types";
+
 export async function sendApiRequest(
-	method,
-	url,
-	urlParams = null,
-	body = null,
-	options = {}
-) {
+	method: RestMethod,
+	url: string,
+	urlParams: any = null,
+	body: any = null,
+	options: any = {},
+): Promise<any|void> {
 	urlParams = urlParams ? new URLSearchParams( urlParams ) : '';
 
 	options = {
@@ -13,8 +15,8 @@ export async function sendApiRequest(
 		...options
 	};
 
-	if ([ 'POST', 'PATCH' ].includes(method) && body) {
-		options.body = JSON.stringify(body);
+	if ([ 'POST', 'PATCH' ].includes( method ) && body) {
+		options.body = JSON.stringify( body );
 	}
 
 	return await fetch( `${ url }?${ urlParams }`, options )
@@ -28,22 +30,14 @@ export async function sendApiRequest(
 
 /**
  * Send a request to this site's API
- *
- * @param { string } method
- * @param { string } endpoint 
- * @param { Object } [urlParams] 
- * @param { Object } [body] 
- * @param { Object } [options]
- *
- * @returns { NextResponse }
  */
 export async function sendInternalApiRequest(
-	method,
-	endpoint,
-	urlParams = null,
-	body = null,
-	options = {}
-) {
+	method: RestMethod,
+	endpoint: string,
+	urlParams: any = null,
+	body: any = null,
+	options: any = {}
+): InternalApiResponse {
 	const url = `${process.env.NEXT_PUBLIC_SITE_URL}/api/${endpoint}`;
 	return await sendApiRequest( method, url, urlParams, body, options );
 }
@@ -53,12 +47,12 @@ export async function sendInternalApiRequest(
  * Makes an API request to a Spotify endpoint
  */
 export async function sendSpotifyApiRequest(
-	accessToken,
-	method,
-	endpoint,
-	urlParams = null,
-	body = null,
-	options = {}
+	accessToken: string,
+	method: RestMethod,
+	endpoint: string,
+	urlParams: any = null,
+	body: any = null,
+	options: any = {}
 ) {
 	if ( ! accessToken ) {
 		throw new Error( 'No access token passed through to sendSpotifyApiRequest' );
@@ -77,11 +71,11 @@ export async function sendSpotifyApiRequest(
 }
 
 
-export async function recursivelyFetchItems(
-	accessToken,
-	endpoint,
-	itemsAttribute = 'items',
-	nextAttribute = 'next'
+export async function fetchAllItems(
+	accessToken: string,
+	endpoint: string,
+	itemsAttribute: string = 'items',
+	nextAttribute: string = 'next'
 ) {
 	const firstList = await sendSpotifyApiRequest(
 		accessToken,
@@ -95,16 +89,18 @@ export async function recursivelyFetchItems(
 		let nextEndpoint = stripSpotifyBase( firstList[ nextAttribute ] );
 
 		while ( nextEndpoint ) {
-			const parts = nextEndpoint.split('?');
+			const parts = nextEndpoint.split( '?' );
 			const endpoint = parts[0];
-			let params = parts.length > 1 ? parts[1].split( '&' ) : {};
-			params = Object.fromEntries(
-				params.map( p => p.split( '=' ) )
-			);
+			const partsObj = parts.length > 1 ? parts[1].split( '&' ) : null;
+			console.log( 'partsObj: ', partsObj );
 
-			console.log( 'endpoint: ', endpoint );
-			console.log( 'params: ', params );
-			console.log( '---');
+			if ( ! partsObj ) {
+				return;
+			}
+
+			const params = Object.fromEntries(
+				partsObj.map( p => p.split( '=' ) )
+			);
 
 			const newList = await sendSpotifyApiRequest(
 				accessToken,
@@ -123,7 +119,7 @@ export async function recursivelyFetchItems(
 }
 
 
-function stripSpotifyBase( url ) {
+export function stripSpotifyBase( url: string ): string {
 	if ( typeof url !== 'string' ) {
 		return null;
 	}

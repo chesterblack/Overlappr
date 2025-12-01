@@ -5,7 +5,7 @@ import { useContext, useEffect } from "react";
 import { useSearchParams } from 'next/navigation'
 import { sendInternalApiRequest } from "../lib/utilities";
 
-export default function Auth({}) {
+export default function Auth(): string {
 	const { setAccessToken, setRefreshToken, setTokenExpires } = useContext(	MainContext );
 
 	const searchParams = useSearchParams()
@@ -33,5 +33,4 @@ export default function Auth({}) {
 	}, [] );
 
 	return 'Loading...';
-
 }

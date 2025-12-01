@@ -2,7 +2,8 @@
 
 import { useContext, useEffect, useState } from "react";
 import PlaylistSelector from "./PlaylistSelector";
-import { recursivelyFetchItems, sendSpotifyApiRequest } from "../lib/utilities";
+import { fetchAllItems, sendSpotifyApiRequest } from "../lib/utilities";
+import { Playlist } from "../types";
 import MainContext from "../context";
 import NewPlaylistMessage from "./NewPlaylistMessage";
 import ErrorMessage from "./ErrorMessage";
@@ -10,10 +11,10 @@ import ErrorMessage from "./ErrorMessage";
 
 export default function PlaylistSelectors({}) {
 	const { accessToken, user, playlists, setPlaylists } = useContext( MainContext );
-	const [ playlistIdA, setPlaylistIdA ] = useState();
-	const [ playlistIdB, setPlaylistIdB ] = useState();
-	const [ newPlaylist, setNewPlaylist ] = useState();
-	const [ errorMessage, setErrorMessage ] = useState();
+	const [ playlistIdA, setPlaylistIdA ] = useState<string>();
+	const [ playlistIdB, setPlaylistIdB ] = useState<string>();
+	const [ newPlaylist, setNewPlaylist ] = useState<Playlist>();
+	const [ errorMessage, setErrorMessage ] = useState<string>();
 
 	useEffect(() => {
 		( async () => {
@@ -30,8 +31,8 @@ export default function PlaylistSelectors({}) {
 	}, []);
 
 
-	async function fetchPlaylistItems( playlistId ) {
-		const items = await recursivelyFetchItems(
+	async function fetchPlaylistItems( playlistId: string ): Promise<any> {
+		const items = await fetchAllItems(
 			accessToken,
 			`playlists/${ playlistId }/tracks`
 		);
@@ -59,8 +60,8 @@ export default function PlaylistSelectors({}) {
 	}
 
 	async function createOverlappedPlaylist() {
-		setErrorMessage();
-		setNewPlaylist();
+		setErrorMessage( null );
+		setNewPlaylist( null );
 		const overlap = await findOverlap();
 
 		if ( overlap.length < 1 ) {
