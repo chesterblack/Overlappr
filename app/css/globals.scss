@@ -1,10 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-$color-overlappr-1: #21D4FD;
-$color-overlappr-2: #B721FF;
+:root {
+	--var-color-main-1: #000;
+	--var-color-main-2: #fff;
+	--var-color-dim-1: #0000007d;
+	--var-color-dim-2: #ffffff7d;
 
-$color-overlappr-dim-1: rgba(33, 212, 253, 0.4);
-$color-overlappr-dim-2: rgba(185, 33, 255,0.4);
+	font-weight: 300;
+}
+
+strong {
+	font-weight: 800;
+}
 
 @mixin gradient-outline( $color-1, $color-2 ) {
 	background: linear-gradient( -45deg, $color-1, $color-2 );
@@ -35,14 +42,14 @@ $color-overlappr-dim-2: rgba(185, 33, 255,0.4);
 @mixin pill-like() {
 	border: none;
 	border-radius: 30px;
-	padding: 10px 35px;
+	padding: 10px;
 	position: relative;
 	box-shadow: 0 2px 13px -5px #000000;
+	box-sizing: border-box;
 }
 
 * {
 	font-family: 'Poppins', sans-serif;
-	font-weight: 300;
 }
 
 body {
@@ -71,6 +78,98 @@ main {
 	margin: 0 auto;
 	position: relative;
 	z-index: 10;
+}
+
+input[ type="text" ] {
+	@include pill-like();
+	padding-inline: 20px;
+	font-weight: 300;
+}
+
+.track-search {
+	position: relative;
+	width: 100%;
+	max-width: 500px;
+	&.is-open {
+		.track-search-input {
+			border-radius: 20px 20px 0 0;
+		}
+
+		.track-search-results {
+			padding: 0 10px 10px 10px;
+		}
+	}
+}
+
+.track-search-input {
+	width: 100%;
+	font-size: 16px;
+
+	&:focus {
+		outline: none
+	}
+}
+
+.track-search-clear {
+	cursor: pointer;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background: var( --var-color-main-2 );
+	border-radius: 100%;
+	width: 23px;
+	height: 23px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.track-search-results {
+	@include pill-like();
+	background-color: #ffffff;
+	color: #000000;
+	width: 100%;
+	border-radius: 0 0 30px 30px;
+	padding: 0;
+	box-shadow: 0 7px 13px -9px #000;
+	max-height: 200px;
+	overflow-y: scroll;
+	position: absolute;
+	z-index: 10;
+}
+
+.track-option {
+	@include pill-like();
+	padding: 5px;
+	box-shadow: none;
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	line-height: 14px;
+	cursor: pointer;
+
+	& > div {
+		display: flex;
+		flex-direction: column;
+	}
+
+	&:hover {
+		background-color: var( --var-color-main-1 );
+	}
+}
+
+.track-image {
+	border-radius: 100%;
+	border: 2px solid #ffffff;
+}
+
+.track-name {
+	font-weight: 500;
+}
+
+.track-artist {
+	font-size: 12px;
+	font-weight: 200;
 }
 
 .selectors {
@@ -135,7 +234,7 @@ main {
 	left: 0;
 	display: none;
 	z-index: 20;
-	width: calc(100% - 10px);
+	width: 100%;
 }
 
 .option {
@@ -147,22 +246,24 @@ main {
 	}
 }
 
-button {
+.go-button {
 	@include pill-like();
+	@include gradient-outline(
+		var( --var-color-main-1 ),
+		var( --var-color-main-2 )
+	);
+	padding-inline: 30px;
 	background-color: #000000;
 	color: #ffffff;
 	font-weight: bold;
 	font-size: 20px;
 	cursor: pointer;
+	margin: 15px 0;
 	
 	&:disabled {
 		cursor: not-allowed;
 		opacity: 0.5;
 	}
-}
-
-.go-button {
-	margin-bottom: 15px;
 }
 
 .new-playlist {

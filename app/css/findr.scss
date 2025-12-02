@@ -1,8 +1,14 @@
-$color-findr-1: #FDCD83;
-$color-findr-2: #782D65;
+@use './globals.scss';
+
+:root {
+	--var-color-main-1: #FDCD83;
+	--var-color-main-2: #782D65;
+	--var-color-dim-1: rgba(33, 212, 253, 0.4);
+	--var-color-dim-2: rgba(185, 33, 255,0.4);
+}
 
 .findr {
-	background: linear-gradient($color-findr-1 0%, $color-findr-2 100%);
+	background: linear-gradient(var( --var-color-main-1 ) 0%, var( --var-color-main-2 ) 100%);
 	color: #ffffff;
 }
 
@@ -14,8 +20,8 @@ $color-findr-2: #782D65;
 	width: 420px;
 	height: 420px;
 	transform: translate(-50%, -50%);
-	background-color: $color-findr-1;
-	background: linear-gradient($color-findr-2 0%, $color-findr-1 100%);
+	background-color: var( --var-color-main-1 );
+	background: linear-gradient(var( --var-color-main-2 ) 0%, var( --var-color-main-1 ) 100%);
 	opacity: 0.5;
 	border-radius: 100%;
 }
@@ -26,7 +32,7 @@ $color-findr-2: #782D65;
 	left: 0;
 	width: 100vw;
 	height: 100vh;
-	background: linear-gradient(90deg, $color-findr-2 0%, $color-findr-1 100%);
+	background: linear-gradient(90deg, var( --var-color-main-2 ) 0%, var( --var-color-main-1 ) 100%);
 	opacity: 0.3;
 }
 .findr .line-2 {
@@ -35,7 +41,7 @@ $color-findr-2: #782D65;
 	left: 25%;
 	width: 100vw;
 	height: 100vh;
-	background: linear-gradient($color-findr-2 0%, $color-findr-1 100%);
+	background: linear-gradient(var( --var-color-main-2 ) 0%, var( --var-color-main-1 ) 100%);
 	opacity: 0.6;
 }
 
@@ -71,7 +77,7 @@ $color-findr-2: #782D65;
 		height: 30px;
 		border-radius: 100%;
 		display: flex;
-		background-color: $color-findr-2;
+		background-color: var( --var-color-main-2 );
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -80,8 +86,8 @@ $color-findr-2: #782D65;
 	div:nth-of-type( 2 ) {
 		animation: loading-search 3.5s infinite ease-out;
 		mix-blend-mode: overlay;
-		background-color: $color-findr-1;
-		border: 2px solid $color-findr-2;
+		background-color: var( --var-color-main-1 );
+		border: 2px solid var( --var-color-main-2 );
 		position: absolute;
 		border-radius: 100%;
 		width: 30px;
@@ -95,7 +101,7 @@ $color-findr-2: #782D65;
 		mix-blend-mode: color-dodge;
 		animation: loading-search 3.5s infinite ease-out;
 		position: absolute;
-		background-color: $color-findr-2;
+		background-color: var( --var-color-main-2 );
 		width: 2px;
 		height: 36px;
 		top: calc( -3px);
@@ -106,7 +112,7 @@ $color-findr-2: #782D65;
 		mix-blend-mode: color-dodge;
 		animation: loading-search 3.5s infinite ease-out;
 		position: absolute;
-		background-color: $color-findr-2;
+		background-color: var( --var-color-main-2 );
 		width: 36px;
 		height: 2px;
 		top: calc( 14px );

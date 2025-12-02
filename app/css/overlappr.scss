@@ -1,14 +1,15 @@
 @use './globals';
 
-$color-overlappr-1: #21D4FD;
-$color-overlappr-2: #B721FF;
-
-$color-overlappr-dim-1: rgba(33, 212, 253, 0.4);
-$color-overlappr-dim-2: rgba(185, 33, 255,0.4);
+:root {
+	--var-color-main-1: #21D4FD;
+	--var-color-main-2: #B721FF;
+	--var-color-dim-1: rgba(33, 212, 253, 0.4);
+	--var-color-dim-2: rgba(185, 33, 255,0.4);
+}
 
 .overlappr {
-	background-color: $color-overlappr-1;
-	background: linear-gradient(19deg, $color-overlappr-1 0%, $color-overlappr-2 100%);
+	background-color: var( --var-color-main-1 );
+	background: linear-gradient(19deg, var( --var-color-main-1 ) 0%, var( --var-color-main-2 ) 100%);
 	background-repeat: no-repeat;
 	background-size: cover;
 	color: #ffffff;
@@ -17,7 +18,7 @@ $color-overlappr-dim-2: rgba(185, 33, 255,0.4);
 		content: "";
 		width: 160vh;
 		height: 160vh;
-		background: rgba(33, 212, 253, 0.4);
+		background: var( --var-color-dim-1 );
 		/* background: rgba(185, 33, 255,0.2); */
 		display: block;
 		position: absolute;
@@ -32,7 +33,7 @@ $color-overlappr-dim-2: rgba(185, 33, 255,0.4);
 		width: 160vh;
 		height: 160vh;
 		/* background: rgba(33, 212, 253, 0.2); */
-		background: rgba(185, 33, 255,0.4);
+		background: var( --var-color-dim-2 );;
 		display: block;
 		position: absolute;
 		border-radius: 100%;
@@ -50,7 +51,7 @@ $color-overlappr-dim-2: rgba(185, 33, 255,0.4);
 .select:nth-of-type(1) {
 	.option {
 		&:hover {
-			background-color: $color-overlappr-dim-1;
+			background-color: var( --var-color-dim-1 );
 		}
 	}
 }
@@ -58,7 +59,7 @@ $color-overlappr-dim-2: rgba(185, 33, 255,0.4);
 .select:nth-of-type(2) {
 	.option {
 		&:hover {
-			background-color: $color-overlappr-dim-2;
+			background-color: var( --var-color-dim-2 );
 		}
 	}
 }
@@ -91,12 +92,12 @@ $color-overlappr-dim-2: rgba(185, 33, 255,0.4);
 	div:nth-of-type( 1 ),
 	div:nth-of-type( 3 ) {
 		animation: loading-venn-1 2s infinite;
-		background-color: $color-overlappr-1;
+		background-color: var( --var-color-main-1 );
 	}
 	div:nth-of-type( 2 ),
 	div:nth-of-type( 4 ) {
 		animation: loading-venn-2 2s infinite;
-		background-color: $color-overlappr-2;
+		background-color: var( --var-color-main-2 );
 	}
 
 	div:nth-of-type( 1 ),
@@ -104,8 +105,4 @@ $color-overlappr-dim-2: rgba(185, 33, 255,0.4);
 		z-index: -1;
 		background-color: #000000;
 	}
-}
-
-button {
-	@include globals.gradient-outline( $color-overlappr-1, $color-overlappr-2 );
 }

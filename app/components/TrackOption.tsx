@@ -3,11 +3,12 @@ import { Track } from "../types";
 
 interface Props {
 	track: Track
+	callback?: ( track: Track ) => any
 }
 
-export default function TrackOption( { track }: Props ) {
+export default function TrackOption( { track, callback = () => {} }: Props ) {
 	return (
-		<div>
+		<div className="track-option" onClick={ () => callback( track ) }>
 			<Image
 				className="track-image"
 				src={ track.album.images[0].url }
@@ -15,8 +16,10 @@ export default function TrackOption( { track }: Props ) {
 				height={ 30 }
 				alt={ track.album.name }
 			/>
-			<span className="track-name">{ track.name }</span>
-			<span className="track-artist">{ track.artists[0].name }</span>
+			<div>
+				<span className="track-name">{ track.name }</span>
+				<span className="track-artist">{ track.artists[0].name }</span>
+			</div>
 		</div>
 	);
 }
