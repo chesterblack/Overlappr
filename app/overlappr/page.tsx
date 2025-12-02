@@ -8,7 +8,6 @@ export const metadata = {
 };
 
 export default function OverlapprHome() {
-
 	return (
 		<div className="overlappr">
 			<main>
