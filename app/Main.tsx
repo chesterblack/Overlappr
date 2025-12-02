@@ -3,9 +3,9 @@
 import MainContext from "./context";
 import { useState, useEffect } from "react";
 import Auth from "./components/Auth";
-import ToolList from "./components/ToolList";
-import { User, Playlist, Component } from "./types";
+import { User, Playlist } from "./types";
 import { usePathname, useSearchParams } from "next/navigation";
+import { fetchAllItems } from "./lib/utilities";
 
 
 export default function Main( { children } ) {
@@ -20,9 +20,19 @@ export default function Main( { children } ) {
 	const code = searchParams.get('code');
 
 	useEffect( () => {
+		// Visually remove the auth code from the URL to prevent odd behaviour when
+		// going forward/backward or refreshing
 		if ( accessToken && code ) {
 			window.history.replaceState( null, '', pathName );
 		}
+
+		// Get playlists for global use
+		( async () => {
+			if ( accessToken && ! playlists ) {
+				const _playlists = await fetchAllItems( accessToken, 'me/playlists' );
+				setPlaylists( _playlists );
+			}
+		} )();
 	}, [ accessToken ] );
 
 	return (

@@ -1,18 +1,20 @@
-"use client"
-
+import PlaylistSelectors from "../components/PlaylistSelectors";
+import UserGreeting from "../components/User";
 import "../css/overlappr.scss";
-import MainContext from "../context";
-import { useEffect, useState } from "react";
-import Auth from "../components/Auth";
-import MainPage from "./MainPage";
-import { Component, Playlist, User } from "../types";
+
+export const metadata = {
+	title: 'Overlappr',
+	description: 'Find the overlap between two Spotify playlists.',
+};
 
 export default function OverlapprHome() {
 
 	return (
 		<div className="overlappr">
 			<main>
-				<MainPage />
+				<UserGreeting />
+				<h1>Overlappr</h1>
+				<PlaylistSelectors />
 			</main>
 		</div>
 	);
