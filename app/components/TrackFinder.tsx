@@ -1,12 +1,21 @@
 'use client'
 
-import { useEffect, useState } from "react";
-import TrackSearch from "./TrackSearch";
+import { useContext, useEffect, useState } from "react";
+import TrackSearchInput from "./TrackSearchInput";
+import Loading from "./Loading";
+import { searchForTrack } from "../lib/searchForTrack";
+import MainContext from "../context";
+import { Track } from "../types";
+import TrackOption from "./TrackOption";
 
 export default function TrackFinder() {
+	const { accessToken } = useContext( MainContext );
+
 	const [ isLoading, setIsLoading ] = useState<boolean>( false );
 	const [ readyToSend, setReadyToSend ] = useState<boolean>( true );
 	const [ searchValue, setSearchValue ] = useState<string>();
+	const [ results, setResults ] = useState<Promise<Track[]>>();
+	const [ tracks, setTracks ] = useState<Track[]>( [] );
 
 	useEffect( () => {
 		const timer = setTimeout(() => {
@@ -17,19 +26,37 @@ export default function TrackFinder() {
 		return () => clearTimeout( timer );
 	}, [ searchValue ] );
 
-	if ( ! isLoading && searchValue && readyToSend ) {
-		console.log( searchValue );
+	useEffect( () => {
+		( async () => {
+			setTracks( await results );
+		} )();
+	}, [ results ] );
+
+	if ( ! isLoading && readyToSend ) {
+		if ( searchValue ) {
+			setResults( searchForTrack( accessToken, searchValue ) );
+		} else {
+			setTracks( [] );
+		}
+
 		setReadyToSend( false );
 	}
 
 	return (
 		<>
-			{ isLoading && 'Loading...' }
-			<TrackSearch changeCallback={ e => {
+		<div className="track-search">
+			<TrackSearchInput changeCallback={ e => {
 				setIsLoading( true );
 				setReadyToSend( false );
 				setSearchValue( e.target.value );
 			} } />
+			<div className="track-search-results">
+				{ tracks && tracks.map( track => (
+					<TrackOption track={ track } key={ track.id } />
+				) ) }
+			</div>
+		</div>
+			{ isLoading && <Loading /> }
 		</>
 	);
 }

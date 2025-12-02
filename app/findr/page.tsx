@@ -1,5 +1,5 @@
 import TrackFinder from '../components/TrackFinder';
-import TrackSearch from '../components/TrackSearch';
+import TrackSearchInput from '../components/TrackSearchInput';
 import UserGreeting from '../components/User';
 import '../css/findr.scss';
 

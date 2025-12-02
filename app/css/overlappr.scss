@@ -75,7 +75,7 @@ $color-overlappr-dim-2: rgba(185, 33, 255,0.4);
 	100% { top: 7px; left: calc( 50% + 7px ); }
 }
 
-.loading-venn {
+.loading {
 	position: relative;
 	animation: loading-venn-rotate 5s infinite linear;
 

@@ -6,7 +6,7 @@ interface Props {
 	changeCallback?: ( e: ChangeEvent<HTMLInputElement> ) => any
 }
 
-export default function TrackSearch( {
+export default function TrackSearchInput( {
 	changeCallback = ( _e ) => {}
 }: Props ) {
 	const [ searchValue, setSearchValue ] = useState<string>( '' );

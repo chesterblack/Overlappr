@@ -38,3 +38,78 @@ $color-findr-2: #782D65;
 	background: linear-gradient($color-findr-2 0%, $color-findr-1 100%);
 	opacity: 0.6;
 }
+
+@keyframes loading-search {
+	0% {
+		transform: translate( -10px, -10px );
+	}
+
+	25% {
+		transform: translate( 10px, 10px );
+	}
+
+	50% {
+		transform: translate( -10px, 10px );
+	}
+
+	75% {
+		transform: translate( 10px, -10px );
+	}
+
+	100% {
+		transform: translate( -10px, -10px );
+	}
+}
+
+.loading {
+	position: relative;
+	top: 25px;
+	left: -15px;
+
+	div:nth-of-type( 1 ) {
+		width: 30px;
+		height: 30px;
+		border-radius: 100%;
+		display: flex;
+		background-color: $color-findr-2;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	
+	div:nth-of-type( 2 ) {
+		animation: loading-search 3.5s infinite ease-out;
+		mix-blend-mode: overlay;
+		background-color: $color-findr-1;
+		border: 2px solid $color-findr-2;
+		position: absolute;
+		border-radius: 100%;
+		width: 30px;
+		height: 30px;
+		top: 0;
+		left: 0;
+		box-sizing: border-box;
+	}
+
+	div:nth-of-type( 3 ) {
+		mix-blend-mode: color-dodge;
+		animation: loading-search 3.5s infinite ease-out;
+		position: absolute;
+		background-color: $color-findr-2;
+		width: 2px;
+		height: 36px;
+		top: calc( -3px);
+		left: calc( 14px );
+	}
+
+	div:nth-of-type( 4 ) {
+		mix-blend-mode: color-dodge;
+		animation: loading-search 3.5s infinite ease-out;
+		position: absolute;
+		background-color: $color-findr-2;
+		width: 36px;
+		height: 2px;
+		top: calc( 14px );
+		left: calc( -3px );
+	}
+}

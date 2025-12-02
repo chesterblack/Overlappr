@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server"
 import { Dispatch, ReactElement, SetStateAction } from "react"
 
 export type SetState<StateType> = Dispatch<SetStateAction<StateType>>
@@ -12,18 +11,30 @@ export type InternalApiResponse = Promise<{
 	message: any
 }>
 
+export interface User {
+	id: string
+	display_name: string
+}
+
 export interface Image {
 	height: number
 	width: number
 	url: string
 }
 
-export interface Playlist {
+export interface ExternalUrls {
+	spotify: string
+}
+
+export interface SpotifyItem {
 	id: string
 	name: string
-	external_urls: {
-		spotify: string
-	}
+	external_urls: ExternalUrls
+	href: string
+	uri: string
+}
+
+export interface Playlist extends SpotifyItem {
 	tracks: {
 		href: string
 	}
@@ -32,12 +43,19 @@ export interface Playlist {
 	}
 }
 
-export interface Track {
-	id: string
-	uri: string
+export interface Artist extends SpotifyItem {}
+
+export interface Album extends SpotifyItem {
+	artists: Artist[]
+	images: {
+		[ key: number ]: Image
+	}
+	release_date: string
+	total_tracks: number
 }
 
-export interface User {
-	id: string
-	display_name: string
+export interface Track extends SpotifyItem {
+	artists: Artist[]
+	album: Album
+	explicit: boolean
 }
