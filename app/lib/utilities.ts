@@ -92,7 +92,6 @@ export async function fetchAllItems(
 			const parts = nextEndpoint.split( '?' );
 			const endpoint = parts[0];
 			const partsObj = parts.length > 1 ? parts[1].split( '&' ) : null;
-			console.log( 'partsObj: ', partsObj );
 
 			if ( ! partsObj ) {
 				return;

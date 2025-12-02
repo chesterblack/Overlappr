@@ -1,0 +1,40 @@
+$color-findr-1: #FDCD83;
+$color-findr-2: #782D65;
+
+.findr {
+	background: linear-gradient($color-findr-1 0%, $color-findr-2 100%);
+	color: #ffffff;
+}
+
+.findr::after {
+	content: "";
+	position: absolute;
+	left: 25%;
+	top: 25%;
+	width: 420px;
+	height: 420px;
+	transform: translate(-50%, -50%);
+	background-color: $color-findr-1;
+	background: linear-gradient($color-findr-2 0%, $color-findr-1 100%);
+	opacity: 0.5;
+	border-radius: 100%;
+}
+
+.findr .line-1 {
+	position: absolute;
+	top: 25%;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: linear-gradient(90deg, $color-findr-2 0%, $color-findr-1 100%);
+	opacity: 0.3;
+}
+.findr .line-2 {
+	position: absolute;
+	top: 0%;
+	left: 25%;
+	width: 100vw;
+	height: 100vh;
+	background: linear-gradient($color-findr-2 0%, $color-findr-1 100%);
+	opacity: 0.6;
+}

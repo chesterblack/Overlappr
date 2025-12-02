@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
-import PlaylistSelectors from "./PlaylistSelectors";
-import UserGreeting from "./User"
+import PlaylistSelectors from "../components/PlaylistSelectors";
+import UserGreeting from "../components/User"
 import MainContext from "../context";
 import { fetchAllItems } from "../lib/utilities";
 import { Component } from "../types";

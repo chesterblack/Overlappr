@@ -1,18 +1,21 @@
+import "./css/globals.scss";
+import Main from "./Main";
 import { Poppins } from "next/font/google";
-import "./globals.scss";
-
-const poppins = Poppins( { weight: ['300', '500', '800', '900'] } );
 
 export const metadata = {
 	title: 'Overlappr',
 	description: 'Find the overlap between two Spotify playlists.',
 };
 
+const poppins = Poppins( { weight: ['300', '500', '800', '900'] } );
+
 export default function RootLayout( { children } ) {
-	return (
+	return(
 		<html lang="en">
-			<body className={ `${ poppins.className } overlappr` }>
-				{ children }
+			<body className={ `${ poppins.className }` }>
+				<Main>
+					{ children }
+				</Main>
 			</body>
 		</html>
 	);

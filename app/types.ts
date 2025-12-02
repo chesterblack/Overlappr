@@ -7,10 +7,10 @@ export type Component = ReactElement | ReactElement[] | string
 
 export type RestMethod = 'POST' | 'PATCH' | 'GET'
 
-export type InternalApiResponse = Promise<NextResponse<{
+export type InternalApiResponse = Promise<{
 	success: boolean
 	message: any
-}>>
+}>
 
 export interface Image {
 	height: number
