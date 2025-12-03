@@ -1,0 +1,284 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+	--var-color-main-1: #000;
+	--var-color-main-2: #fff;
+	--var-color-dim-1: #0000007d;
+	--var-color-dim-2: #ffffff7d;
+
+	font-weight: 300;
+}
+
+strong {
+	font-weight: 800;
+}
+
+@mixin gradient-outline( $color-1, $color-2 ) {
+	background: linear-gradient( -45deg, $color-1, $color-2 );
+	box-shadow: 0 2px 13px -5px #000000;
+	z-index: 1;
+
+	&::after {
+		content: '';
+		display: block;
+		width: calc( 100% - 10px );
+		height: calc( 100% - 10px );
+		left: 50%;
+		top: 50%;
+		transform: translate( -50%, -50% );
+		position: absolute;
+		border-radius: 30px;
+		background-color: #000000;
+		z-index: -1;
+		transition: .1s ease-in-out;
+	}
+
+	&:hover:not( :disabled )::after {
+		width: 100%;
+		height: 100%;
+	}
+}
+
+@mixin pill-like() {
+	border: none;
+	border-radius: 30px;
+	padding: 10px;
+	position: relative;
+	box-shadow: 0 2px 13px -5px #000000;
+	box-sizing: border-box;
+}
+
+* {
+	font-family: 'Poppins', sans-serif;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	max-width: 100vw;
+	min-height: 100vh;
+	overflow: hidden;
+}
+
+h1 {
+	margin: 0 0 30px 0;
+	font-size: 70px;
+	font-weight: 900;
+	letter-spacing: -1px;
+}
+
+main {
+	height: 100vh;
+	width: 90%;
+	max-width: 1200px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	margin: 0 auto;
+	position: relative;
+	z-index: 10;
+}
+
+input[ type="text" ] {
+	@include pill-like();
+	padding-inline: 20px;
+	font-weight: 300;
+}
+
+.track-search {
+	position: relative;
+	width: 100%;
+	max-width: 500px;
+	&.is-open {
+		.track-search-input {
+			border-radius: 20px 20px 0 0;
+		}
+
+		.track-search-results {
+			padding: 0 10px 10px 10px;
+		}
+	}
+}
+
+.track-search-input {
+	width: 100%;
+	font-size: 16px;
+
+	&:focus {
+		outline: none
+	}
+}
+
+.track-search-clear {
+	cursor: pointer;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background: var( --var-color-main-2 );
+	border-radius: 100%;
+	width: 23px;
+	height: 23px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.track-search-results {
+	@include pill-like();
+	background-color: #ffffff;
+	color: #000000;
+	width: 100%;
+	border-radius: 0 0 30px 30px;
+	padding: 0;
+	box-shadow: 0 7px 13px -9px #000;
+	max-height: 200px;
+	overflow-y: scroll;
+	position: absolute;
+	z-index: 10;
+}
+
+.track-option {
+	@include pill-like();
+	padding: 5px;
+	box-shadow: none;
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	line-height: 14px;
+	cursor: pointer;
+
+	& > div {
+		display: flex;
+		flex-direction: column;
+	}
+
+	&:hover {
+		background-color: var( --var-color-main-1 );
+	}
+}
+
+.track-image {
+	border-radius: 100%;
+	border: 2px solid #ffffff;
+}
+
+.track-name {
+	font-weight: 500;
+}
+
+.track-artist {
+	font-size: 12px;
+	font-weight: 200;
+}
+
+.selectors {
+	display: flex;
+	gap: 15px;
+	width: 100%;
+	justify-content: center;
+	margin-bottom: 10px;
+
+	.x {
+		display: flex;
+		align-items: center;
+	}
+}
+
+.select {
+	@include pill-like();
+	padding: 5px;
+	background-color: #ffffff;
+	color: #000000;
+	width: 100%;
+	max-width: 300px;
+	cursor: pointer;
+
+	img {
+		border-radius: 100%;
+	}
+
+	&:focus {
+		border-radius: 20px 20px 0 0;
+
+		.options {
+			display: block;
+		}
+	}
+}
+
+.select-inner {
+	display: flex;
+	align-items: center;
+	height: 100%;
+	gap: 10px;
+	padding: 5px 10px;
+	box-sizing: border-box;
+
+	&.has-image {
+		padding: 0px;
+	}
+}
+
+.options {
+	@include pill-like();
+	box-shadow: 0 7px 13px -12px #000000;
+	background-color: #ffffff;
+	color: #000000;
+	border-radius: 0 0 20px 20px;
+	padding: 5px;
+	overflow: scroll;
+	max-height: 150px;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	display: none;
+	z-index: 20;
+	width: 100%;
+}
+
+.option {
+	padding: 5px 10px;
+	cursor: pointer;
+
+	&:last-child {
+		border-radius: 0 0 15px 15px;
+	}
+}
+
+.go-button {
+	@include pill-like();
+	@include gradient-outline(
+		var( --var-color-main-1 ),
+		var( --var-color-main-2 )
+	);
+	padding-inline: 30px;
+	background-color: #000000;
+	color: #ffffff;
+	font-weight: bold;
+	font-size: 20px;
+	cursor: pointer;
+	margin: 15px 0;
+	
+	&:disabled {
+		cursor: not-allowed;
+		opacity: 0.5;
+	}
+}
+
+.new-playlist {
+	margin-top: 10px;
+	text-align: center;
+
+	a {
+		color: #fff;
+		text-decoration: none;
+		font-weight: 900;
+		border-bottom: 2px solid #ffffff;
+		transition: .05s ease-in-out;
+
+		&:hover {
+			border-bottom: 5px solid #ffffff;
+		}
+	}
+}

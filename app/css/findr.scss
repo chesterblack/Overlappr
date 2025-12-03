@@ -1,0 +1,121 @@
+@use './globals.scss';
+
+:root {
+	--var-color-main-1: #FDCD83;
+	--var-color-main-2: #782D65;
+	--var-color-dim-1: rgba(33, 212, 253, 0.4);
+	--var-color-dim-2: rgba(185, 33, 255,0.4);
+}
+
+.findr {
+	background: linear-gradient(var( --var-color-main-1 ) 0%, var( --var-color-main-2 ) 100%);
+	color: #ffffff;
+}
+
+.findr::after {
+	content: "";
+	position: absolute;
+	left: 25%;
+	top: 25%;
+	width: 420px;
+	height: 420px;
+	transform: translate(-50%, -50%);
+	background-color: var( --var-color-main-1 );
+	background: linear-gradient(var( --var-color-main-2 ) 0%, var( --var-color-main-1 ) 100%);
+	opacity: 0.5;
+	border-radius: 100%;
+}
+
+.findr .line-1 {
+	position: absolute;
+	top: 25%;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: linear-gradient(90deg, var( --var-color-main-2 ) 0%, var( --var-color-main-1 ) 100%);
+	opacity: 0.3;
+}
+.findr .line-2 {
+	position: absolute;
+	top: 0%;
+	left: 25%;
+	width: 100vw;
+	height: 100vh;
+	background: linear-gradient(var( --var-color-main-2 ) 0%, var( --var-color-main-1 ) 100%);
+	opacity: 0.6;
+}
+
+@keyframes loading-search {
+	0% {
+		transform: translate( -10px, -10px );
+	}
+
+	25% {
+		transform: translate( 10px, 10px );
+	}
+
+	50% {
+		transform: translate( -10px, 10px );
+	}
+
+	75% {
+		transform: translate( 10px, -10px );
+	}
+
+	100% {
+		transform: translate( -10px, -10px );
+	}
+}
+
+.loading {
+	position: relative;
+	top: 25px;
+	left: -15px;
+
+	div:nth-of-type( 1 ) {
+		width: 30px;
+		height: 30px;
+		border-radius: 100%;
+		display: flex;
+		background-color: var( --var-color-main-2 );
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	
+	div:nth-of-type( 2 ) {
+		animation: loading-search 3.5s infinite ease-out;
+		mix-blend-mode: overlay;
+		background-color: var( --var-color-main-1 );
+		border: 2px solid var( --var-color-main-2 );
+		position: absolute;
+		border-radius: 100%;
+		width: 30px;
+		height: 30px;
+		top: 0;
+		left: 0;
+		box-sizing: border-box;
+	}
+
+	div:nth-of-type( 3 ) {
+		mix-blend-mode: color-dodge;
+		animation: loading-search 3.5s infinite ease-out;
+		position: absolute;
+		background-color: var( --var-color-main-2 );
+		width: 2px;
+		height: 36px;
+		top: calc( -3px);
+		left: calc( 14px );
+	}
+
+	div:nth-of-type( 4 ) {
+		mix-blend-mode: color-dodge;
+		animation: loading-search 3.5s infinite ease-out;
+		position: absolute;
+		background-color: var( --var-color-main-2 );
+		width: 36px;
+		height: 2px;
+		top: calc( 14px );
+		left: calc( -3px );
+	}
+}

@@ -1,0 +1,108 @@
+@use './globals';
+
+:root {
+	--var-color-main-1: #21D4FD;
+	--var-color-main-2: #B721FF;
+	--var-color-dim-1: rgba(33, 212, 253, 0.4);
+	--var-color-dim-2: rgba(185, 33, 255,0.4);
+}
+
+.overlappr {
+	background-color: var( --var-color-main-1 );
+	background: linear-gradient(19deg, var( --var-color-main-1 ) 0%, var( --var-color-main-2 ) 100%);
+	background-repeat: no-repeat;
+	background-size: cover;
+	color: #ffffff;
+
+	&::before {
+		content: "";
+		width: 160vh;
+		height: 160vh;
+		background: var( --var-color-dim-1 );
+		/* background: rgba(185, 33, 255,0.2); */
+		display: block;
+		position: absolute;
+		border-radius: 100%;
+		top: -70%;
+		left: -18%;
+		z-index: 2;
+	}
+
+	&::after {
+		content: "";
+		width: 160vh;
+		height: 160vh;
+		/* background: rgba(33, 212, 253, 0.2); */
+		background: var( --var-color-dim-2 );;
+		display: block;
+		position: absolute;
+		border-radius: 100%;
+		bottom: -70%;
+		right: -18%;
+		z-index: 1;
+	}
+	
+	main {
+		z-index: 10;
+		position: relative;
+	}
+}
+
+.select:nth-of-type(1) {
+	.option {
+		&:hover {
+			background-color: var( --var-color-dim-1 );
+		}
+	}
+}
+
+.select:nth-of-type(2) {
+	.option {
+		&:hover {
+			background-color: var( --var-color-dim-2 );
+		}
+	}
+}
+
+@keyframes loading-venn-1 {
+	0% { top: -7px; left: calc( 50% + -7px ); }
+	50% { top: 7px; left: calc( 50% + 7px ); }
+	100% { top: -7px; left: calc( 50% + -7px ); }
+}
+
+@keyframes loading-venn-2 {
+	0% { top: 7px; left: calc( 50% + 7px ); }
+	50% { top: -7px; left: calc( 50% + -7px ); }
+	100% { top: 7px; left: calc( 50% + 7px ); }
+}
+
+.loading {
+	position: relative;
+	animation: loading-venn-rotate 5s infinite linear;
+
+	div {
+		position: absolute;
+		width: 30px;
+		height: 30px;
+		border-radius: 100%;
+		mix-blend-mode: plus-lighter;
+		transform: translateX( -50% );
+	}
+
+	div:nth-of-type( 1 ),
+	div:nth-of-type( 3 ) {
+		animation: loading-venn-1 2s infinite;
+		background-color: var( --var-color-main-1 );
+	}
+	div:nth-of-type( 2 ),
+	div:nth-of-type( 4 ) {
+		animation: loading-venn-2 2s infinite;
+		background-color: var( --var-color-main-2 );
+	}
+
+	div:nth-of-type( 1 ),
+	div:nth-of-type( 2 ) {
+		z-index: -1;
+		background-color: #000000;
+	}
+}
