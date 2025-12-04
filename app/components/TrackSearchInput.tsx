@@ -1,12 +1,10 @@
-'use client'
-
-import { ChangeEvent, useState } from "react";
+import { ChangeEventHandler } from "react";
 import { SetState } from "../types";
 
 interface Props {
 	searchValue: string
 	setSearchValue: SetState<string>
-	changeCallback?: ( e: ChangeEvent<HTMLInputElement> ) => any
+	changeCallback?: ChangeEventHandler<HTMLInputElement>
 }
 
 export default function TrackSearchInput( {
