@@ -122,6 +122,12 @@ input[ type="text" ] {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	border: none;
+	color: #fff;
+
+	&:hover {
+		background: var( --var-color-main-1 );
+	}
 }
 
 .track-search-results {
@@ -268,7 +274,7 @@ input[ type="text" ] {
 	}
 }
 
-.new-playlist {
+.message {
 	margin-top: 10px;
 	text-align: center;
 
@@ -282,5 +288,35 @@ input[ type="text" ] {
 		&:hover {
 			border-bottom: 5px solid #ffffff;
 		}
+	}
+}
+
+.playlist-list {
+	display: flex;
+	margin: 5px 0;
+	padding: 0;
+	gap: 10;
+	flex-wrap: wrap;
+	justify-content: center;
+
+	li {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 5px 15px;
+		border-radius: 25px;
+		background-color: var( --var-color-main-2 );
+		color: #ffffff;
+		list-style: none;
+		white-space: nowrap;
+
+		&:hover {
+			outline: 3px solid #ffffff;
+		}
+	}
+
+	a {
+		border-bottom: 0 !important;
+		font-weight: normal;
 	}
 }

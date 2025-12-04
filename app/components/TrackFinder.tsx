@@ -3,14 +3,15 @@
 import { useContext, useEffect, useState } from "react";
 import TrackSearchInput from "./TrackSearchInput";
 import Loading from "./Loading";
-import { searchForTrack } from "../lib/searchForTrack";
+import { isTrackInPlaylist, searchForTrack } from "../lib/searchForTrack";
 import MainContext from "../context";
-import { Track } from "../types";
+import { Component, Playlist, Track } from "../types";
 import TrackOption from "./TrackOption";
 import GoButton from "./GoButton";
+import FoundPlaylists from "./FoundPlaylists";
 
 export default function TrackFinder() {
-	const { accessToken } = useContext( MainContext );
+	const { accessToken, playlists } = useContext( MainContext );
 
 	const [ isLoading, setIsLoading ] = useState<boolean>( false );
 	const [ readyToSend, setReadyToSend ] = useState<boolean>( true );
@@ -18,6 +19,8 @@ export default function TrackFinder() {
 	const [ results, setResults ] = useState<Promise<Track[]>>();
 	const [ tracks, setTracks ] = useState<Track[]>( [] );
 	const [ selectedTrack, setSelectedTrack ] = useState<Track>();
+	const [ found, setFound ] = useState<Playlist[]>( null );
+	const [ message, setMessage ] = useState<Component>();
 
 	useEffect( () => {
 		setSelectedTrack( null );
@@ -42,9 +45,19 @@ export default function TrackFinder() {
 		} )();
 	}, [ results ] );
 
+	useEffect( () => {
+		if ( selectedTrack ) {
+			setMessage( <>
+				Search for <strong>{ selectedTrack ? selectedTrack.name : 'a song' }</strong> in your playlists
+			</> );
+			setFound( null );
+		}
+	}, [ selectedTrack ] )
+
 	if ( readyToSend ) {
 		if ( searchValue ) {
 			setResults( searchForTrack( accessToken, searchValue ) );
+			setMessage( null );
 		} else {
 			setTracks( [] );
 		}
@@ -52,7 +65,37 @@ export default function TrackFinder() {
 		setReadyToSend( false );
 	}
 
-	const isOpen = tracks && tracks.length > 0 && ! selectedTrack;
+	async function awaitAndCheck( i: number, soFar: Playlist[] = [] ) {
+		if ( ! selectedTrack ) {
+			return;
+		}
+
+		setIsLoading( true );
+
+		const playlist = playlists[ i ];
+		setMessage( <>Checking <strong>{ playlist.name }</strong>...</> );
+		setFound( soFar );
+		
+		const isInPlaylist = await isTrackInPlaylist(
+			accessToken,
+			selectedTrack,
+			playlist
+		);
+		
+		if ( isInPlaylist ) {
+			soFar.push( playlist );
+		}
+
+		if ( i === playlists.length - 1 ) {
+			setMessage( null );
+			setIsLoading( false );
+			return;
+		}
+
+		awaitAndCheck( i + 1, soFar );
+	}
+
+	const isOpen = ! isLoading && tracks && tracks.length > 0 && ! selectedTrack;
 
 	return (
 		<>
@@ -67,9 +110,11 @@ export default function TrackFinder() {
 					}
 				} />
 
-				{
-					searchValue &&
+				{ searchValue &&
 					<button className="track-search-clear" onClick={ () => {
+						setMessage( null );
+						setFound( null );
+						setSelectedTrack( null );
 						setSearchValue( '' );
 					} }>
 						╳
@@ -87,13 +132,17 @@ export default function TrackFinder() {
 				</div>
 			</div>
 
-			<div className="new-playlist">
-				<div>Search for <strong>{ selectedTrack ? selectedTrack.name : 'a song' }</strong> in your playlists</div>
-			</div>
+			{ message &&
+				<div className="message">
+					{ message }
+				</div>
+			}
+
+			<FoundPlaylists found={ found } selectedTrack={ selectedTrack } isLoading={ isLoading } />
 
 			<GoButton
-				callback={() => console.log(selectedTrack)}
-				disabled={ ! selectedTrack }
+				callback={ () => awaitAndCheck( 0 ) }
+				disabled={ ! selectedTrack || isLoading }
 			/>
 
 			{ isLoading && <Loading /> }
