@@ -7,9 +7,7 @@ export const metadata = {
 	description: 'Find which of your playlists a song is in.',
 };
 
-export default function FindrHomepage() {
-	// ᪠
-
+export default function Findr() {
 	return (
 		<div className="findr">
 			<div className="line-1"></div>

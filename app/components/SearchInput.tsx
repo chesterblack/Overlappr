@@ -3,20 +3,22 @@ import { SetState } from "../types";
 
 interface Props {
 	searchValue: string
+	placeholder: string
 	setSearchValue: SetState<string>
 	changeCallback?: ChangeEventHandler<HTMLInputElement>
 }
 
-export default function TrackSearchInput( {
+export default function SearchInput( {
 	searchValue,
+	placeholder,
 	setSearchValue,
 	changeCallback = ( _e ) => {}
 }: Props ) {
 	return (
 		<input
-			className="track-search-input"
+			className="search-input"
 			type='text'
-			placeholder='Search for a track'
+			placeholder={ placeholder }
 			value={ searchValue }
 			onChange={ e => {
 				setSearchValue( e.target.value );

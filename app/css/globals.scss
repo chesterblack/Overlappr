@@ -86,22 +86,22 @@ input[ type="text" ] {
 	font-weight: 300;
 }
 
-.track-search {
+.search {
 	position: relative;
 	width: 100%;
 	max-width: 500px;
 	&.is-open {
-		.track-search-input {
+		.search-input {
 			border-radius: 20px 20px 0 0;
 		}
 
-		.track-search-results {
+		.search-results {
 			padding: 0 10px 10px 10px;
 		}
 	}
 }
 
-.track-search-input {
+.search-input {
 	width: 100%;
 	font-size: 16px;
 
@@ -110,7 +110,7 @@ input[ type="text" ] {
 	}
 }
 
-.track-search-clear {
+.search-clear {
 	cursor: pointer;
 	position: absolute;
 	top: 10px;
@@ -130,7 +130,7 @@ input[ type="text" ] {
 	}
 }
 
-.track-search-results {
+.search-results {
 	@include pill-like();
 	background-color: #ffffff;
 	color: #000000;

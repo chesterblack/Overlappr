@@ -1,7 +1,7 @@
 'use client'
 
 import { useContext, useEffect, useState } from "react";
-import TrackSearchInput from "./TrackSearchInput";
+import SearchInput from "./SearchInput";
 import Loading from "./Loading";
 import { isTrackInPlaylist, searchForTrack } from "../lib/searchForTrack";
 import MainContext from "../context";
@@ -99,9 +99,10 @@ export default function TrackFinder() {
 
 	return (
 		<>
-			<div className={ `track-search ${ isOpen ? 'is-open' : '' }` }>
-				<TrackSearchInput
+			<div className={ `search ${ isOpen ? 'is-open' : '' }` }>
+				<SearchInput
 					searchValue={ searchValue }
+					placeholder="Search for a track"
 					setSearchValue={ setSearchValue }
 					changeCallback={ e => {
 						setIsLoading( true );
@@ -111,7 +112,7 @@ export default function TrackFinder() {
 				} />
 
 				{ searchValue &&
-					<button className="track-search-clear" onClick={ () => {
+					<button className="search-clear" onClick={ () => {
 						setMessage( null );
 						setFound( null );
 						setSelectedTrack( null );
@@ -121,7 +122,7 @@ export default function TrackFinder() {
 					</button>
 				}
 
-				<div className="track-search-results">
+				<div className="search-results">
 					{ isOpen && tracks.map( track => (
 						<TrackOption
 							track={ track }

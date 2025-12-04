@@ -7,7 +7,7 @@ export const metadata = {
 	description: 'Find the overlap between two Spotify playlists.',
 };
 
-export default function OverlapprHome() {
+export default function Overlappr() {
 	return (
 		<div className="overlappr">
 			<main>
