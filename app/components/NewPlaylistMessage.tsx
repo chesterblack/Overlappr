@@ -10,7 +10,7 @@ export default function NewPlaylistMessage( { playlist }: Props ): Component {
 	}
 
 	return (
-		<div className="new-playlist">
+		<div className="message">
 			<a href={ playlist.external_urls.spotify }>{ playlist.name }</a> created.
 		</div>
 	);

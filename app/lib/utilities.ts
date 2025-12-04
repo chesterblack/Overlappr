@@ -1,4 +1,4 @@
-import { InternalApiResponse, RestMethod } from "../types";
+import { InternalApiResponse, RestMethod, Track } from "../types";
 
 export async function sendApiRequest(
 	method: RestMethod,
@@ -124,4 +124,18 @@ export function stripSpotifyBase( url: string ): string {
 	}
 
 	return url.replace( 'https://api.spotify.com/v1/', '' );
+}
+
+
+/**
+ * For some reason the same track has different id/spotify_uris sometimes.
+ * This checks the name + artist are the same.
+ */
+export function areTracksSame( trackA: Track, trackB: Track ) {
+	return (
+		trackA.id === trackB.id || (
+			( trackA.name === trackB.name ) &&
+			( trackA.artists[0].name === trackB.artists[0].name )
+		)
+	);
 }
