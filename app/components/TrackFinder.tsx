@@ -7,6 +7,7 @@ import { searchForTrack } from "../lib/searchForTrack";
 import MainContext from "../context";
 import { Track } from "../types";
 import TrackOption from "./TrackOption";
+import GoButton from "./GoButton";
 
 export default function TrackFinder() {
 	const { accessToken } = useContext( MainContext );
@@ -86,14 +87,14 @@ export default function TrackFinder() {
 				</div>
 			</div>
 
-			{
-				<div className="new-playlist">
-					<div>Search for <strong>{ selectedTrack ? selectedTrack.name : 'a song' }</strong> in your playlists</div>
-					<button className="go-button" onClick={() => console.log(selectedTrack)} disabled={ !selectedTrack }>
-						Go!
-					</button>
-				</div>
-			}
+			<div className="new-playlist">
+				<div>Search for <strong>{ selectedTrack ? selectedTrack.name : 'a song' }</strong> in your playlists</div>
+			</div>
+
+			<GoButton
+				callback={() => console.log(selectedTrack)}
+				disabled={ ! selectedTrack }
+			/>
 
 			{ isLoading && <Loading /> }
 		</>

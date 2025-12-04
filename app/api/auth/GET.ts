@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { InternalApiResponse } from "../../types";
 
-export default async function authEndpointGet( request: NextRequest ): InternalApiResponse {
+export default async function authEndpointGet( request: NextRequest ) {
 	const { searchParams } = new URL(request.url);
 	const code = searchParams.get( 'code' );
 	const redirect_uri = searchParams.get( 'redirect_uri' );

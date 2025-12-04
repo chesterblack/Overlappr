@@ -248,10 +248,12 @@ input[ type="text" ] {
 
 .go-button {
 	@include pill-like();
-	@include gradient-outline(
-		var( --var-color-main-1 ),
-		var( --var-color-main-2 )
-	);
+	& {
+		@include gradient-outline(
+			var( --var-color-main-1 ),
+			var( --var-color-main-2 )
+		);
+	}
 	padding-inline: 30px;
 	background-color: #000000;
 	color: #ffffff;
