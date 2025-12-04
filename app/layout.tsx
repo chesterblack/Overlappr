@@ -1,6 +1,8 @@
+import { Suspense } from "react";
 import "./css/globals.scss";
 import Main from "./Main";
 import { Poppins } from "next/font/google";
+import Loading from "./components/Loading";
 
 export const metadata = {
 	title: 'Spotify Tools',
@@ -13,9 +15,11 @@ export default function RootLayout( { children } ) {
 	return(
 		<html lang="en">
 			<body className={ `${ poppins.className }` }>
-				<Main>
-					{ children }
-				</Main>
+				<Suspense fallback={ <Loading /> }>
+					<Main>
+							{ children }
+					</Main>
+				</Suspense>
 			</body>
 		</html>
 	);
