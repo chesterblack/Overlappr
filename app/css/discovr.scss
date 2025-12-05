@@ -1,13 +1,11 @@
 @use './globals';
 
-:root {
+.discovr {
 	--var-color-main-1: #43cea2;
 	--var-color-main-2: #185a9d;
 	--var-color-dim-1: #43cea28c;
 	--var-color-dim-2: #185b9d9f;
-}
 
-.discovr {
 	background: rgb(56,14,88);
 	background: linear-gradient(0deg, var( --var-color-main-2 ) 0%, var( --var-color-main-1 ) 100%);    
 	background-repeat: no-repeat;

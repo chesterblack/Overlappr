@@ -1,13 +1,11 @@
 @use './globals.scss';
 
-:root {
+.findr {
 	--var-color-main-1: #FDCD83;
 	--var-color-main-2: #782D65;
 	--var-color-dim-1: rgba(33, 212, 253, 0.4);
 	--var-color-dim-2: rgba(185, 33, 255,0.4);
-}
 
-.findr {
 	background: linear-gradient(var( --var-color-main-1 ) 0%, var( --var-color-main-2 ) 100%);
 	color: #ffffff;
 }

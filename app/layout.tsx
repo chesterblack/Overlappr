@@ -17,7 +17,7 @@ export default function RootLayout( { children } ) {
 			<body className={ `${ poppins.className }` }>
 				<Suspense fallback={ <Loading /> }>
 					<Main>
-							{ children }
+						{ children }
 					</Main>
 				</Suspense>
 			</body>

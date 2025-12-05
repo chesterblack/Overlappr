@@ -21,7 +21,6 @@ export default function Discovr() {
 
 				<ArtistSearch />
 				<GoButton disabled={false} />
-
 			</main>
 		</div>
 	)

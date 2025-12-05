@@ -1,13 +1,11 @@
 @use './globals';
 
-:root {
+.overlappr {
 	--var-color-main-1: #21D4FD;
 	--var-color-main-2: #B721FF;
 	--var-color-dim-1: rgba(33, 212, 253, 0.4);
 	--var-color-dim-2: rgba(185, 33, 255,0.4);
-}
 
-.overlappr {
 	background-color: var( --var-color-main-1 );
 	background: linear-gradient(19deg, var( --var-color-main-1 ) 0%, var( --var-color-main-2 ) 100%);
 	background-repeat: no-repeat;
