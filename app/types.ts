@@ -20,6 +20,7 @@ export interface Image {
 	height: number
 	width: number
 	url: string
+	alt: string
 }
 
 export interface ExternalUrls {
@@ -58,4 +59,12 @@ export interface Track extends SpotifyItem {
 	artists: Artist[]
 	album: Album
 	explicit: boolean
+}
+
+export interface SearchResult {
+	id: string
+	title: string
+	fullItem: any
+	subtitle?: string
+	image?: Image
 }
