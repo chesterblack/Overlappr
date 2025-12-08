@@ -5,6 +5,10 @@ export async function searchForTrack(
 	accessToken: string,
 	searchTerm: string
 ): Promise<Track[]> {
+	if ( ! searchTerm || searchTerm === '' ) {
+		return [];
+	}
+
 	const queryParams = {
 		q: searchTerm,
 		type: 'track'

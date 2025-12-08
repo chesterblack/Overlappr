@@ -65,10 +65,22 @@
 	}
 }
 
+.search-results {
+	.loading {
+		width: 55px;
+		top: 50%;
+		left: 50%;
+		width: 55px;
+		transform: translate(-50%, 12px);
+	}
+}
+
 .loading {
 	position: relative;
 	top: 25px;
 	left: -15px;
+	height: 60px;
+	margin-bottom: 10px;
 
 	div:nth-of-type( 1 ) {
 		width: 30px;

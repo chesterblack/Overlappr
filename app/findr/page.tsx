@@ -1,5 +1,5 @@
-import TrackFinder from '../components/TrackFinder';
 import UserGreeting from '../components/User';
+import FindrSearch from './FindrSearch';
 import '../css/findr.scss';
 
 export const metadata = {
@@ -15,7 +15,7 @@ export default function Findr() {
 			<main>
 				<UserGreeting />
 				<h1>Findr</h1>
-				<TrackFinder />
+				<FindrSearch />
 			</main>
 		</div>
 	)

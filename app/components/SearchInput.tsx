@@ -1,23 +1,26 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { SearchResult, SetState } from "../types";
+import { SetState } from "../types";
 
 interface Props {
 	placeholder: string,
-	callback: SetState<SearchResult>,
+	callback: ( searchValue: string ) => any
+	setIsLoading?: SetState<boolean>
 	delay?: number
 }
 
 export default function SearchInput( {
 	placeholder,
 	callback,
+	setIsLoading = () => {},
 	delay = 1000
-} ) {
+}: Props ) {
 	const [ searchValue, setSearchValue ] = useState<string>( '' );
 	const [ readyToSend, setReadyToSend ] = useState<boolean>( false );
 
 	useEffect( () => {
+		setIsLoading( true );
 		setReadyToSend( false );
 		const timer = setTimeout( () => {
 			setReadyToSend( true );
@@ -27,9 +30,12 @@ export default function SearchInput( {
 	}, [ searchValue ] );
 
 	useEffect( () => {
-		if ( readyToSend ) {
-			callback( searchValue );
-		}
+		( async () => {
+			if ( readyToSend ) {
+				await callback( searchValue );
+				setIsLoading( false );
+			}
+		} )()
 	}, [ readyToSend ] )
 
 	return (
