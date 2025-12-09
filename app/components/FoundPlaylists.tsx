@@ -1,13 +1,14 @@
-import { Playlist, Track } from "../types";
+import { Component, Playlist, Track } from "../types";
 import FoundPlaylist from "./FoundPlaylist";
 
 interface Props {
 	found: Playlist[]
 	selectedTrack: Track
 	isLoading: boolean
+	children: Component
 }
 
-export default function FoundPlaylists( { found, selectedTrack, isLoading }: Props ) {
+export default function FoundPlaylists( { found, selectedTrack, isLoading, children }: Props ) {
 	if ( ! selectedTrack || ! found ) {
 		return;
 	}
@@ -24,14 +25,11 @@ export default function FoundPlaylists( { found, selectedTrack, isLoading }: Pro
 		);
 	}
 
-
 	return (
 		<div className="message">
 			<span>Found <strong>{ selectedTrack && selectedTrack.name }</strong> in playlists:</span>
 			<ul className="playlist-list">
-				{ found.map( ( playlist: Playlist ) => (
-					<FoundPlaylist key={ playlist.id } playlist={ playlist } />
-				) ) }
+				{ children }
 			</ul>
 		</div>
 	);

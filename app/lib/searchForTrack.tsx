@@ -1,22 +1,35 @@
-import { Playlist, Track } from "../types";
+import { Artist, ItemTypes, Playlist, Track } from "../types";
 import { areTracksSame, fetchAllItems, sendSpotifyApiRequest, stripSpotifyBase } from "./utilities";
+
+export async function searchSpotify(
+	accessToken: string,
+	searchTerm: string,
+	type: ItemTypes
+): Promise<any> {
+	if ( ! searchTerm || searchTerm === '' ) {
+		return null;
+	}
+
+	const queryParams = { q: searchTerm, type };
+	const results = await sendSpotifyApiRequest( accessToken, 'GET', 'search', queryParams );
+
+	return results;
+}
+
+export async function searchForArtist(
+	accessToken: string,
+	searchTerm: string
+): Promise<Artist[]> {
+	const results = await searchSpotify( accessToken, searchTerm, 'artist' );
+	return results?.artists?.items ?? [];
+}
 
 export async function searchForTrack(
 	accessToken: string,
 	searchTerm: string
 ): Promise<Track[]> {
-	if ( ! searchTerm || searchTerm === '' ) {
-		return [];
-	}
-
-	const queryParams = {
-		q: searchTerm,
-		type: 'track'
-	};
-
-	const results = await sendSpotifyApiRequest( accessToken, 'GET', 'search', queryParams );
-
-	return results.tracks.items;
+	const results = await searchSpotify( accessToken, searchTerm, 'track' );
+	return results?.tracks?.items ?? [];
 }
 
 export async function findTrackInPlaylists(

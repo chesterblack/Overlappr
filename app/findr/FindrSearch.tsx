@@ -8,6 +8,8 @@ import { Component, Playlist, SearchResult, Track } from "../types";
 import GoButton from "../components/GoButton";
 import Loading from "../components/Loading";
 import FoundPlaylists from "../components/FoundPlaylists";
+import FoundPlaylist from "../components/FoundPlaylist";
+import { formatTrackSearchResult } from "../lib/utilities";
 
 export default function FindrSearch() {
 	const { accessToken, playlists } = useContext( MainContext );
@@ -26,21 +28,8 @@ export default function FindrSearch() {
 		}
 
 		setForceShut( false );
-
 		const tracks = await searchForTrack( accessToken, searchValue );
-
-		return tracks.map( track => ( {
-			id: track.id,
-			title: track.name,
-			fullItem: track,
-			subtitle: track.artists[0].name,
-			image: {
-				url: track.album.images[0].url,
-				alt: track.album.name,
-				width: 30,
-				height: 30
-			}
-		} ) );
+		return tracks.map( formatTrackSearchResult );
 	}
 
 	function select( track: Track ) {
@@ -92,7 +81,15 @@ export default function FindrSearch() {
 			{ isLoading && <Loading /> }
 			{ message && <div className="message"> { message } </div> }
 
-			<FoundPlaylists found={ found } selectedTrack={ selectedTrack } isLoading={ isLoading } />
+			<FoundPlaylists
+				found={ found }
+				selectedTrack={ selectedTrack }
+				isLoading={ isLoading }
+			>
+				{ found && found.map( ( playlist: Playlist ) => (
+					<FoundPlaylist key={ playlist.id } playlist={ playlist } />
+				) ) }
+			</FoundPlaylists>
 
 			<GoButton
 				callback={ () => checkPlaylist( 0 ) }

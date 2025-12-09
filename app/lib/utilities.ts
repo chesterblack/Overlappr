@@ -1,4 +1,4 @@
-import { InternalApiResponse, RestMethod, Track } from "../types";
+import { Artist, InternalApiResponse, RestMethod, SearchResult, SpotifyItem, Track } from "../types";
 
 export async function sendApiRequest(
 	method: RestMethod,
@@ -138,4 +138,40 @@ export function areTracksSame( trackA: Track, trackB: Track ) {
 			( trackA.artists[0].name === trackB.artists[0].name )
 		)
 	);
+}
+
+export function formatSearchResult( item: SpotifyItem ): SearchResult {
+	return {
+		id: item.id,
+		title: item.name,
+		fullItem: item
+	}
+}
+
+export function formatTrackSearchResult( track: Track ): SearchResult {
+	return {
+		...formatSearchResult( track ),
+		subtitle: track.artists[0].name,
+		image: {
+			url: track.album.images[0].url,
+			alt: track.album.name,
+			width: 30,
+			height: 30
+		}
+	}
+}
+
+export function formatArtistSearchResult( artist: Artist ): SearchResult {
+	const response = formatSearchResult( artist );
+
+	if ( artist?.images?.[0] ) {
+		response.image = {
+			url: artist.images[0].url,
+			alt: artist.name,
+			width: 30,
+			height: 30
+		};
+	}
+
+	return response;
 }

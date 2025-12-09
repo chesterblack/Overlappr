@@ -1,10 +1,13 @@
 import { Dispatch, ReactElement, SetStateAction } from "react"
+import { sendSpotifyApiRequest } from "./lib/utilities"
 
 export type SetState<StateType> = Dispatch<SetStateAction<StateType>>
 
 export type Component = ReactElement | ReactElement[] | string
 
 export type RestMethod = 'POST' | 'PATCH' | 'GET'
+
+export type ItemTypes = 'track' | 'artist' | 'album' | 'playlist' | 'show' | 'episode' | 'audiobook';
 
 export type InternalApiResponse = Promise<{
 	success: boolean
@@ -44,7 +47,11 @@ export interface Playlist extends SpotifyItem {
 	}
 }
 
-export interface Artist extends SpotifyItem {}
+export interface Artist extends SpotifyItem {
+	images?: {
+		[ key: number ]: Image
+	}
+}
 
 export interface Album extends SpotifyItem {
 	artists: Artist[]
