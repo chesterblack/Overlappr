@@ -14,11 +14,9 @@ export default function FoundPlaylists( { found, selectedTrack, isLoading }: Pro
 
 	if ( found !== null && found.length < 1 ) {
 		if ( isLoading ) {
-			console.log('but is loading')
 			return;
 		}
 
-		console.log('and we\'re done');
 		return (
 			<div className="message">
 				<strong>{ selectedTrack.name }</strong> not found in any of your playlists.

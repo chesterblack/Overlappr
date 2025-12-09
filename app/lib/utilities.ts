@@ -23,7 +23,7 @@ export async function sendApiRequest(
 		.then( res => res.json() )
 		.catch( ( error ) => {
 			console.error( error );
-			return error;
+			throw new Error( error );
 		} );
 }
 

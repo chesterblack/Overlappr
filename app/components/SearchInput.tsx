@@ -22,9 +22,11 @@ export default function SearchInput( {
 	useEffect( () => {
 		setIsLoading( true );
 		setReadyToSend( false );
+
+		const waitTime = searchValue === '' ? 1 : delay;
 		const timer = setTimeout( () => {
 			setReadyToSend( true );
-		}, delay );
+		}, waitTime );
 
 		return () => clearTimeout( timer );
 	}, [ searchValue ] );

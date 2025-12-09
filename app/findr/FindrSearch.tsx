@@ -19,8 +19,9 @@ export default function FindrSearch() {
 	const [ found, setFound ] = useState<Playlist[]>( null );
 
 	async function search( searchValue: string ): Promise<SearchResult[]> {
-		if ( searchValue === '' ) {
+		if ( ! searchValue || searchValue === '' ) {
 			setSelectedTrack( null );
+			setMessage( <></> );
 			return [];
 		}
 
@@ -92,7 +93,6 @@ export default function FindrSearch() {
 			{ message && <div className="message"> { message } </div> }
 
 			<FoundPlaylists found={ found } selectedTrack={ selectedTrack } isLoading={ isLoading } />
-
 
 			<GoButton
 				callback={ () => checkPlaylist( 0 ) }
