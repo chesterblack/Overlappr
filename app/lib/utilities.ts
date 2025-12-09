@@ -19,7 +19,12 @@ export async function sendApiRequest(
 		options.body = JSON.stringify( body );
 	}
 
-	return await fetch( `${ url }?${ urlParams }`, options )
+	let fullUrl = url;
+	if ( urlParams && urlParams !== '' ) {
+		fullUrl += `?${ urlParams }`;
+	}
+
+	return await fetch( fullUrl, options )
 		.then( res => res.json() )
 		.catch( ( error ) => {
 			console.error( error );
@@ -128,8 +133,8 @@ export function stripSpotifyBase( url: string ): string {
 
 
 /**
- * For some reason the same track has different id/spotify_uris sometimes.
- * This checks the name + artist are the same.
+ * The same track has different id/spotify_uris sometimes (I think due to differing
+ * licences between countries). This checks the name + artist are the same.
  */
 export function areTracksSame( trackA: Track, trackB: Track ) {
 	return (

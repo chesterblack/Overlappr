@@ -48,6 +48,12 @@ export interface Playlist extends SpotifyItem {
 }
 
 export interface Artist extends SpotifyItem {
+	genres: string[]
+	popularity: number
+	followers: {
+		href?: string
+		total: number
+	}
 	images?: {
 		[ key: number ]: Image
 	}

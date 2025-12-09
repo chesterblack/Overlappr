@@ -18,9 +18,7 @@ export default function Discovr() {
 			<main>
 				<UserGreeting />
 				<h1>Discovr</h1>
-
 				<ArtistSearch />
-				<GoButton disabled={false} />
 			</main>
 		</div>
 	)
