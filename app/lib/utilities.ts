@@ -180,3 +180,18 @@ export function formatArtistSearchResult( artist: Artist ): SearchResult {
 
 	return response;
 }
+
+export function dedupe<T extends { id: any }>(
+	items: T[]
+): T[] {
+	const deduped = [];
+
+	items.map( item => {
+		const found = deduped.find( i => i.id === item.id );
+		if ( ! found ) {
+			deduped.push( item );
+		};
+	} );
+
+	return deduped;
+}

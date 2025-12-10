@@ -6,7 +6,7 @@ import Search from "./Search";
 import { Artist } from "../types";
 import { searchForArtist, searchSpotify } from "../lib/searchForTrack";
 import MainContext from "../context";
-import { formatArtistSearchResult, sendSpotifyApiRequest } from "../lib/utilities";
+import { dedupe, formatArtistSearchResult, sendSpotifyApiRequest } from "../lib/utilities";
 import GoButton from "./GoButton";
 
 export default function ArtistSearch() {
@@ -27,43 +27,26 @@ export default function ArtistSearch() {
 	}
 
 	async function getRelatedArtists( artist: Artist ) {
-		const { genres } = artist;
 
-		const queryParams = {
-			q: `${ genres[0] } genre`,
-			type: 'artist',
-			limit: 50
-		};
-
-		const results = await sendSpotifyApiRequest(
-			accessToken,
-			'GET',
-			'search',
-			queryParams
-		);
-
-		console.log( 'results: ', results );
-
-		const artistNames = results.artists.items.map( artist => artist.name );
-
-		console.log( 'artistNames: ', artistNames );
 	}
 
 	return (
 		<>
-			<Search
+			{/* <Search
 				search={ search }
 				select={ select }
 				placeholder="Search for an artist"
 				forceShut={ forceShut }
-			/>
+			/> */}
+			
+			<div className="message">Spotify killed the endpoint I used for this because too many people were training their AI models on it :(</div>
 
-			{ selectedArtist && selectedArtist.name }
+			{/* { selectedArtist && selectedArtist.name } */}
 
-			<GoButton
+			{/* <GoButton
 				callback={ () => { getRelatedArtists( selectedArtist ) } }
 				disabled={ ! selectedArtist }
-			/>
+			/> */}
 		</>
 	)
 }
