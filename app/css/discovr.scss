@@ -1,0 +1,58 @@
+@use './globals';
+
+.discovr {
+	--var-color-main-1: #43cea2;
+	--var-color-main-2: #185a9d;
+	--var-color-dim-1: #43cea28c;
+	--var-color-dim-2: #185b9d9f;
+
+	background: rgb(56,14,88);
+	background: linear-gradient(0deg, var( --var-color-main-2 ) 0%, var( --var-color-main-1 ) 100%);    
+	background-repeat: no-repeat;
+	background-size: cover;
+	color: #ffffff;
+
+	.line-1 {
+		width: 200vw;
+		height: 100vh;
+		position: absolute;
+		top: -50%;
+		left: -100%;
+		background: linear-gradient(90deg, var( --var-color-main-1 ) 50%, var( --var-color-main-2 ) 100%);
+		opacity: 0.5;
+		border-radius: 100%;
+	}
+
+	.line-2 {
+		width: 160vw;
+		height: 100vh;
+		position: absolute;
+		top: -50%;
+		left: -100%;
+		background: linear-gradient(90deg, var( --var-color-main-1 ) 60%, var( --var-color-main-2 ) 100%);
+		opacity: 0.5;
+		border-radius: 100%;
+	}
+
+	.line-3 {
+		width: 160vw;
+		height: 100vh;
+		position: absolute;
+		bottom: -50%;
+		left: -100%;
+		background: linear-gradient(90deg, var( --var-color-main-2 ) 60%, var( --var-color-main-1 ) 100%);
+		opacity: 0.5;
+		border-radius: 100%;
+	}
+
+	.line-4 {
+		width: 200vw;
+		height: 100vh;
+		position: absolute;
+		bottom: -50%;
+		left: -100%;
+		background: linear-gradient(90deg, var( --var-color-main-2 ) 50%, var( --var-color-main-1 ) 100%);
+		opacity: 0.5;
+		border-radius: 100%;
+	}
+}

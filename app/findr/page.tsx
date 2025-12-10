@@ -1,5 +1,5 @@
-import TrackFinder from '../components/TrackFinder';
 import UserGreeting from '../components/User';
+import FindrSearch from './FindrSearch';
 import '../css/findr.scss';
 
 export const metadata = {
@@ -7,9 +7,7 @@ export const metadata = {
 	description: 'Find which of your playlists a song is in.',
 };
 
-export default function FindrHomepage() {
-	// ᪠
-
+export default function Findr() {
 	return (
 		<div className="findr">
 			<div className="line-1"></div>
@@ -17,7 +15,7 @@ export default function FindrHomepage() {
 			<main>
 				<UserGreeting />
 				<h1>Findr</h1>
-				<TrackFinder />
+				<FindrSearch />
 			</main>
 		</div>
 	)

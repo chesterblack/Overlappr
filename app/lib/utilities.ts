@@ -1,4 +1,4 @@
-import { InternalApiResponse, RestMethod, Track } from "../types";
+import { Artist, InternalApiResponse, RestMethod, SearchResult, SpotifyItem, Track } from "../types";
 
 export async function sendApiRequest(
 	method: RestMethod,
@@ -19,11 +19,16 @@ export async function sendApiRequest(
 		options.body = JSON.stringify( body );
 	}
 
-	return await fetch( `${ url }?${ urlParams }`, options )
+	let fullUrl = url;
+	if ( urlParams && urlParams !== '' ) {
+		fullUrl += `?${ urlParams }`;
+	}
+
+	return await fetch( fullUrl, options )
 		.then( res => res.json() )
 		.catch( ( error ) => {
 			console.error( error );
-			return error;
+			throw new Error( error );
 		} );
 }
 
@@ -128,8 +133,8 @@ export function stripSpotifyBase( url: string ): string {
 
 
 /**
- * For some reason the same track has different id/spotify_uris sometimes.
- * This checks the name + artist are the same.
+ * The same track has different id/spotify_uris sometimes (I think due to differing
+ * licences between countries). This checks the name + artist are the same.
  */
 export function areTracksSame( trackA: Track, trackB: Track ) {
 	return (
@@ -138,4 +143,55 @@ export function areTracksSame( trackA: Track, trackB: Track ) {
 			( trackA.artists[0].name === trackB.artists[0].name )
 		)
 	);
+}
+
+export function formatSearchResult( item: SpotifyItem ): SearchResult {
+	return {
+		id: item.id,
+		title: item.name,
+		fullItem: item
+	}
+}
+
+export function formatTrackSearchResult( track: Track ): SearchResult {
+	return {
+		...formatSearchResult( track ),
+		subtitle: track.artists[0].name,
+		image: {
+			url: track.album.images[0].url,
+			alt: track.album.name,
+			width: 30,
+			height: 30
+		}
+	}
+}
+
+export function formatArtistSearchResult( artist: Artist ): SearchResult {
+	const response = formatSearchResult( artist );
+
+	if ( artist?.images?.[0] ) {
+		response.image = {
+			url: artist.images[0].url,
+			alt: artist.name,
+			width: 30,
+			height: 30
+		};
+	}
+
+	return response;
+}
+
+export function dedupe<T extends { id: any }>(
+	items: T[]
+): T[] {
+	const deduped = [];
+
+	items.map( item => {
+		const found = deduped.find( i => i.id === item.id );
+		if ( ! found ) {
+			deduped.push( item );
+		};
+	} );
+
+	return deduped;
 }

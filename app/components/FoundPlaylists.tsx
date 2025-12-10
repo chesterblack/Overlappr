@@ -1,11 +1,23 @@
+import { Component, Playlist, Track } from "../types";
 import FoundPlaylist from "./FoundPlaylist";
 
-export default function FoundPlaylists( { found, selectedTrack, isLoading } ) {
-	if ( ! selectedTrack || ! found || ( found && found.length < 1 && ! isLoading ) ) {
+interface Props {
+	found: Playlist[]
+	selectedTrack: Track
+	isLoading: boolean
+	children: Component
+}
+
+export default function FoundPlaylists( { found, selectedTrack, isLoading, children }: Props ) {
+	if ( ! selectedTrack || ! found ) {
 		return;
 	}
 
-	if ( found && found.length < 1 && ! isLoading ) {
+	if ( found !== null && found.length < 1 ) {
+		if ( isLoading ) {
+			return;
+		}
+
 		return (
 			<div className="message">
 				<strong>{ selectedTrack.name }</strong> not found in any of your playlists.
@@ -17,9 +29,7 @@ export default function FoundPlaylists( { found, selectedTrack, isLoading } ) {
 		<div className="message">
 			<span>Found <strong>{ selectedTrack && selectedTrack.name }</strong> in playlists:</span>
 			<ul className="playlist-list">
-				{ found.map( playlist => (
-					<FoundPlaylist key={ playlist.id } playlist={ playlist } />
-				) ) }
+				{ children }
 			</ul>
 		</div>
 	);
